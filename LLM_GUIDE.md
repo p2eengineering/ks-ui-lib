@@ -381,6 +381,227 @@ interface ToastProps {
 />
 ```
 
+### Dropdown Component
+
+**Import:**
+```tsx
+import { Dropdown } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface DropdownOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface DropdownProps {
+  type?: 'type1' | 'type2' | 'type3' | 'combo' | 'button';
+  options: DropdownOption[];
+  value?: string;
+  placeholder?: string;
+  label?: string;
+  onSelect?: (value: string) => void;
+  searchable?: boolean;
+  searchPlaceholder?: string;
+  disabled?: boolean;
+  className?: string;
+}
+```
+
+**Dropdown Types:**
+
+1. **Type 1** - Purple theme with purple text and border
+2. **Type 2** - Dark theme with dark text
+3. **Type 3** - Default theme with placeholder text
+4. **Combo** - Searchable dropdown with search input and purple border
+
+**Usage Examples:**
+
+```tsx
+// Type 1 dropdown
+<Dropdown 
+  type="type1"
+  options={[
+    { value: 'item1', label: 'List Item 1' },
+    { value: 'item2', label: 'List Item 2' },
+  ]}
+  onSelect={(value) => console.log('Selected:', value)}
+/>
+
+// Searchable dropdown
+<Dropdown 
+  type="combo"
+  options={countries}
+  searchable={true}
+  searchPlaceholder="Search Country"
+  placeholder="-- Select Country --"
+  onSelect={handleCountrySelect}
+/>
+
+// Disabled dropdown
+<Dropdown 
+  type="type1"
+  options={options}
+  disabled={true}
+/>
+```
+
+### Tabs Component
+
+**Import:**
+```tsx
+import { Tabs } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface TabItem {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+}
+
+interface TabsProps {
+  items: TabItem[];
+  activeTab?: string;
+  onTabChange?: (tabId: string) => void;
+  size?: 'small' | 'medium' | 'large';
+  variant?: 'rounded' | 'segmented';
+  showIcons?: boolean;
+  className?: string;
+}
+```
+
+**Tabs Variants:**
+
+1. **Size** - `small`, `medium`, `large` for different tab sizes
+2. **Variant** - `rounded` (individual tabs) or `segmented` (connected tabs)
+3. **Icons** - Optional icons can be added to each tab
+
+**Usage Examples:**
+
+```tsx
+// Basic tabs
+<Tabs
+  items={[
+    { id: 'tab1', label: 'Overview' },
+    { id: 'tab2', label: 'Analytics' },
+    { id: 'tab3', label: 'Settings' },
+  ]}
+  onTabChange={(tabId) => console.log('Active tab:', tabId)}
+/>
+
+// Small rounded tabs with icons
+<Tabs
+  items={[
+    { id: 'tab1', label: 'Tab', icon: <FaBolt /> },
+    { id: 'tab2', label: 'Tab', icon: <FaBolt /> },
+    { id: 'tab3', label: 'Tab', icon: <FaBolt /> },
+  ]}
+  size="small"
+  variant="rounded"
+  showIcons={true}
+/>
+
+// Segmented control style
+<Tabs
+  items={[
+    { id: 'tab1', label: 'Tab' },
+    { id: 'tab2', label: 'Tab' },
+    { id: 'tab3', label: 'Tab' },
+  ]}
+  variant="segmented"
+/>
+
+// Disabled tabs
+<Tabs
+  items={[
+    { id: 'tab1', label: 'Tab' },
+    { id: 'tab2', label: 'Tab', disabled: true },
+    { id: 'tab3', label: 'Tab' },
+  ]}
+/>
+```
+
+### Tooltip Component
+
+**Import:**
+```tsx
+import { Tooltip } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface TooltipProps {
+  type?: 'type1' | 'type2' | 'type3';
+  content: string;
+  children: React.ReactNode;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+  showArrow?: boolean;
+  className?: string;
+}
+```
+
+**Tooltip Types:**
+
+1. **Type 1** - Light grey background, no arrow - for simple informational tooltips
+2. **Type 2** - Light yellow background with arrow - for highlighted information
+3. **Type 3** - Dark background with white text and arrow - for important information
+
+**Usage Examples:**
+
+```tsx
+// Type 1 tooltip (simple)
+<Tooltip
+  type="type1"
+  content="This is a simple informational tooltip."
+  showArrow={false}
+>
+  <button>Hover me</button>
+</Tooltip>
+
+// Type 2 tooltip (highlighted)
+<Tooltip
+  type="type2"
+  content="This tooltip has a light yellow background and an arrow."
+  showArrow={true}
+>
+  <FaQuestionCircle />
+</Tooltip>
+
+// Type 3 tooltip (important)
+<Tooltip
+  type="type3"
+  content="This tooltip has a dark background for important information."
+  showArrow={true}
+  position="top"
+>
+  <FaExclamationTriangle />
+</Tooltip>
+
+// Different positions
+<Tooltip
+  type="type1"
+  content="Tooltip on the left"
+  position="left"
+  showArrow={false}
+>
+  <span>Left tooltip</span>
+</Tooltip>
+
+<Tooltip
+  type="type2"
+  content="Tooltip on the right"
+  position="right"
+  showArrow={true}
+>
+  <span>Right tooltip</span>
+</Tooltip>
+```
+
 ## 🎨 Design Patterns
 
 ### Color Usage Guidelines

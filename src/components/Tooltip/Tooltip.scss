@@ -1,0 +1,140 @@
+@import "../../design-tokens/design-tokens";
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: $z-index-tooltip;
+  max-width: 300px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: $font-family-primary;
+  font-size: 14px;
+  font-weight: $font-weight-normal;
+  line-height: 1.4;
+  color: $color-text-primary;
+  box-shadow: $shadow-lg;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__trigger {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  &__content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  &__arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+  }
+
+  // Type 1 - Light grey background, no arrow
+  &--type1 {
+    background-color: $color-surface-grey;
+    border: none;
+  }
+
+  // Type 2 - Light yellow background with arrow
+  &--type2 {
+    background-color: #FFF9C4; // Light yellow
+    border: none;
+  }
+
+  // Type 3 - Dark grey background with arrow
+  &--type3 {
+    background-color: $color-text-primary;
+    color: $color-white;
+    border: none;
+  }
+
+  // Position variants
+  &--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+
+    .tooltip__arrow--top {
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: inherit;
+      border-bottom: none;
+    }
+  }
+
+  &--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+
+    .tooltip__arrow--bottom {
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-color: inherit;
+      border-top: none;
+    }
+  }
+
+  &--left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
+
+    .tooltip__arrow--left {
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left-color: inherit;
+      border-right: none;
+    }
+  }
+
+  &--right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+
+    .tooltip__arrow--right {
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border-right-color: inherit;
+      border-left: none;
+    }
+  }
+
+  // Arrow color inheritance for different types
+  &--type1 .tooltip__arrow {
+    border-color: $color-surface-grey;
+  }
+
+  &--type2 .tooltip__arrow {
+    border-color: #FFF9C4;
+  }
+
+  &--type3 .tooltip__arrow {
+    border-color: $color-text-primary;
+  }
+}

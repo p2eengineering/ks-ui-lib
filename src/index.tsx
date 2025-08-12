@@ -49,5 +49,17 @@ export type { CheckboxProps } from './components/Checkbox/Checkbox';
 export { default as Toast } from './components/Toast/Toast';
 export type { ToastProps } from './components/Toast/Toast';
 
+// Dropdown Component
+export { default as Dropdown } from './components/Dropdown/Dropdown';
+export type { DropdownProps, DropdownOption } from './components/Dropdown/Dropdown';
+
+// Tabs Component
+export { default as Tabs } from './components/Tabs/Tabs';
+export type { TabsProps, TabItem } from './components/Tabs/Tabs';
+
+// Tooltip Component
+export { default as Tooltip } from './components/Tooltip/Tooltip';
+export type { TooltipProps } from './components/Tooltip/Tooltip';
+
 // Note: Design tokens are available in SCSS format at src/design-tokens/design-tokens.scss
 // Import them in your SCSS files: @import '~@ks/component-library/src/design-tokens/design-tokens';
