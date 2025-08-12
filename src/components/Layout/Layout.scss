@@ -1,0 +1,45 @@
+@import "../../design-tokens/design-tokens";
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $color-background-tertiary;
+
+  &__content {
+    display: flex;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__main {
+    flex: 1;
+    padding: $spacing-lg;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease-in-out;
+
+    &--with-sidebar {
+      margin-left: 280px;
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: $breakpoint-lg) {
+  .layout {
+    &__main {
+      &--with-sidebar {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .layout {
+    &__main {
+      padding: $spacing-md;
+    }
+  }
+}

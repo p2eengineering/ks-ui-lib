@@ -11,6 +11,7 @@ $color-primary: #000000; // KS Black
 $color-primary-hover: #404040;
 $color-primary-light: #131313;
 
+$color-black: #000000; // Black
 $color-white: #FFFFFF; // KS White
 
 // Accent Colors
@@ -235,6 +236,7 @@ $breakpoint-2xl: 1400px;
 $z-index-dropdown: 1000;
 $z-index-sticky: 1020;
 $z-index-fixed: 1030;
+$z-index-header: 1035;
 $z-index-modal-backdrop: 1040;
 $z-index-modal: 1050;
 $z-index-popover: 1060;

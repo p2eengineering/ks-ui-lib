@@ -61,5 +61,17 @@ export type { TabsProps, TabItem } from './components/Tabs/Tabs';
 export { default as Tooltip } from './components/Tooltip/Tooltip';
 export type { TooltipProps } from './components/Tooltip/Tooltip';
 
+// Header Component
+export { default as Header } from './components/Header/Header';
+export type { HeaderProps } from './components/Header/Header';
+
+// Sidebar Component
+export { default as Sidebar } from './components/Sidebar/Sidebar';
+export type { SidebarProps, SidebarItem } from './components/Sidebar/Sidebar';
+
+// Layout Component
+export { default as Layout } from './components/Layout/Layout';
+export type { LayoutProps } from './components/Layout/Layout';
+
 // Note: Design tokens are available in SCSS format at src/design-tokens/design-tokens.scss
 // Import them in your SCSS files: @import '~@ks/component-library/src/design-tokens/design-tokens';
