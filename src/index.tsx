@@ -11,6 +11,10 @@ export type { ButtonProps } from './components/Button/Button';
 export { default as Toggle } from './components/Toggle/Toggle';
 export type { ToggleProps } from './components/Toggle/Toggle';
 
+// RadioButton Component
+export { default as RadioButton } from './components/RadioButton/RadioButton';
+export type { RadioButtonProps } from './components/RadioButton/RadioButton';
+
 // Dialog Component
 export {
   Dialog,

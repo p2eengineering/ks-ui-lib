@@ -344,21 +344,30 @@ export const InteractiveSegmented: Story = {
   },
 
   render: () => {
-    const [activeSegment, setActiveSegment] = useState('disable');
+    const [activeSegment, setActiveSegment] = useState('bars');
     
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
-        <Toggle 
-          type="segmented" 
-          activeSegment={activeSegment}
-          onSegmentChange={setActiveSegment}
-          segments={[
-            { id: 'bars', label: '☰' },
-            { id: 'close', label: '✕' },
-          ]}
-        >
-          Active: {activeSegment}
-        </Toggle>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'bars' ? '#D1D4D6' : '#404040' }}>
+            Menu
+          </span>
+          <Toggle 
+            type="segmented" 
+            activeSegment={activeSegment}
+            onSegmentChange={setActiveSegment}
+            segments={[
+              { id: 'bars', label: '☰' },
+              { id: 'close', label: '✕' },
+            ]}
+          />
+          <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'close' ? '#D1D4D6' : '#404040' }}>
+            Close
+          </span>
+        </div>
+        <div style={{ padding: '12px', background: '#f5f5f5', borderRadius: '8px', fontSize: '14px' }}>
+          Active segment: <strong>{activeSegment === 'bars' ? 'Menu (☰)' : 'Close (✕)'}</strong>
+        </div>
       </div>
     );
   },
@@ -366,7 +375,7 @@ export const InteractiveSegmented: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive segmented control with state management.',
+        story: 'Interactive segmented control with cross button (☰/✕) and external labels.',
       },
     },
   }
@@ -391,6 +400,58 @@ export const InteractiveTheme: Story = {
     docs: {
       description: {
         story: 'Interactive theme selector with state management.',
+      },
+    },
+  },
+};
+
+// =============================================================================
+// CROSS BUTTON TOGGLE STORIES
+// =============================================================================
+
+export const CrossButtonToggle: Story = {
+  render: () => {
+    const [activeSegment, setActiveSegment] = useState('bars');
+    
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '600' }}>Cross Button Toggle</h3>
+          <p style={{ marginBottom: '20px', fontSize: '14px', color: '#666666' }}>
+            This demonstrates the segmented control with bars (☰) and cross (✕) buttons.
+          </p>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'bars' ? '#D1D4D6' : '#404040' }}>
+              Menu
+            </span>
+            <Toggle 
+              type="segmented"
+              segments={[
+                { id: 'bars', label: '☰' },
+                { id: 'close', label: '✕' }
+              ]}
+              activeSegment={activeSegment}
+              onSegmentChange={setActiveSegment}
+            />
+            <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'close' ? '#D1D4D6' : '#404040' }}>
+              Close
+            </span>
+          </div>
+          
+          <div style={{ marginTop: '16px', padding: '12px', background: '#f5f5f5', borderRadius: '8px' }}>
+            <p style={{ fontSize: '14px', color: '#404040', margin: 0 }}>
+              Active segment: <strong>{activeSegment === 'bars' ? 'Menu (☰)' : 'Close (✕)'}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates the Toggle component with segmented control featuring bars (☰) and cross (✕) buttons.',
       },
     },
   },

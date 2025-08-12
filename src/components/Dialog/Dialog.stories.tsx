@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { useState } from 'react';
 import { FaTimes, FaInfoCircle, FaList } from 'react-icons/fa';
+import Toggle from '../Toggle/Toggle';
 import {
   Dialog,
   DialogTrigger,
@@ -45,6 +46,60 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // =============================================================================
+// TOGGLE WITH CROSS BUTTON DEMO
+// =============================================================================
+
+export const ToggleWithCrossButton: Story = {
+  render: () => {
+    const [activeSegment, setActiveSegment] = useState('bars');
+    
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: '600' }}>Toggle with Cross Button</h3>
+          <p style={{ marginBottom: '20px', fontSize: '14px', color: '#666666' }}>
+            This demonstrates the segmented control with bars (☰) and cross (✕) buttons.
+          </p>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'bars' ? '#D1D4D6' : '#404040' }}>
+              Menu
+            </span>
+            <Toggle 
+              type="segmented"
+              segments={[
+                { id: 'bars', label: '☰' },
+                { id: 'close', label: '✕' }
+              ]}
+              activeSegment={activeSegment}
+              onSegmentChange={setActiveSegment}
+            >
+              Menu Control
+            </Toggle>
+            <span style={{ fontSize: '14px', fontWeight: '500', color: activeSegment === 'close' ? '#D1D4D6' : '#404040' }}>
+              Close
+            </span>
+          </div>
+          
+          <div style={{ marginTop: '16px', padding: '12px', background: '#f5f5f5', borderRadius: '8px' }}>
+            <p style={{ fontSize: '14px', color: '#404040', margin: 0 }}>
+              Active segment: <strong>{activeSegment === 'bars' ? 'Menu (☰)' : 'Close (✕)'}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates the Toggle component with segmented control featuring bars (☰) and cross (✕) buttons.',
+      },
+    },
+  },
+};
+
+// =============================================================================
 // BASIC DIALOG STORIES - MATCHING THE IMAGE EXACTLY
 // =============================================================================
 
@@ -77,7 +132,7 @@ export const BasicDialog: Story = {
         </DialogHeader>
         <DialogFooter>
           <Button variant="secondary">Cancel</Button>
-          <Button variant="primary">Delete Account</Button>
+          <Button variant="primary">Delete</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -130,8 +185,8 @@ export const DialogWithSmallIcon: Story = {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="secondary">Skip for Now</Button>
-          <Button variant="primary">Update Profile</Button>
+          <Button variant="secondary">Skip</Button>
+          <Button variant="primary">Update</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -192,8 +247,8 @@ export const DialogWithLargeIcon: Story = {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="secondary">Maybe Later</Button>
-          <Button variant="primary">Try Dark Mode</Button>
+          <Button variant="secondary">Later</Button>
+          <Button variant="primary">Try</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -288,8 +343,8 @@ export const DialogWithListItems: Story = {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="secondary">Deny All</Button>
-          <Button variant="primary">Allow All</Button>
+          <Button variant="secondary">Deny</Button>
+          <Button variant="primary">Allow</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -396,7 +451,7 @@ export const DialogWithSmallIconAndList: Story = {
         </div>
         <DialogFooter>
           <Button variant="secondary">Cancel</Button>
-          <Button variant="primary">Export Selected</Button>
+          <Button variant="primary">Export</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -423,18 +478,37 @@ export const DialogSizes: Story = {
         {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
           <Dialog key={size} open={openSize === size} onOpenChange={(open) => setOpenSize(open ? size : null)}>
             <DialogTrigger asChild>
-              <Button variant="primary">{size.toUpperCase()} Dialog</Button>
+              <div style={{
+                background: '#000000',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '10px',
+                fontFamily: 'Source Sans 3, sans-serif',
+                fontWeight: '600',
+                fontSize: '14px',
+                cursor: 'pointer',
+                display: 'inline-block',
+                transition: 'all 0.2s ease'
+              }}>
+                {size.toUpperCase()} Dialog
+              </div>
             </DialogTrigger>
             <DialogContent size={size}>
               <DialogHeader>
                 <DialogTitle>{size.toUpperCase()} Dialog Title</DialogTitle>
                 <DialogDescription>
-                  This is a {size} sized dialog. The content area adjusts based on the size prop.
+                  This is a {size} sized dialog. The content area adjusts based on the size prop. The action buttons are positioned at the bottom of the dialog.
                 </DialogDescription>
               </DialogHeader>
+              <div style={{ padding: '0 24px', flex: 1 }}>
+                <p style={{ margin: '16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
+                  This is additional content to demonstrate how the dialog content area expands and the footer stays at the bottom.
+                </p>
+              </div>
               <DialogFooter>
-                <Button variant="secondary">Action 2</Button>
-                <Button variant="primary">Action 1</Button>
+                <Button variant="secondary">Cancel</Button>
+                <Button variant="primary">Save</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -461,24 +535,41 @@ export const ControlledDialog: Story = {
     
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-        <Button variant="primary" onClick={() => setIsOpen(true)}>
+        <div style={{
+          background: '#000000',
+          color: 'white',
+          border: 'none',
+          padding: '12px 24px',
+          borderRadius: '10px',
+          fontFamily: 'Source Sans 3, sans-serif',
+          fontWeight: '600',
+          fontSize: '14px',
+          cursor: 'pointer',
+          display: 'inline-block',
+          transition: 'all 0.2s ease'
+        }} onClick={() => setIsOpen(true)}>
           Open Controlled Dialog
-        </Button>
+        </div>
         
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Controlled Dialog</DialogTitle>
               <DialogDescription>
-                This dialog is controlled externally. The open state is managed by the parent component.
+                This dialog is controlled externally. The open state is managed by the parent component. The action buttons are positioned at the bottom.
               </DialogDescription>
             </DialogHeader>
+            <div style={{ padding: '0 24px', flex: 1 }}>
+              <p style={{ margin: '16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
+                This demonstrates how the footer stays at the bottom even with additional content.
+              </p>
+            </div>
             <DialogFooter>
               <Button variant="secondary" onClick={() => setIsOpen(false)}>
-                Action 2
+                Cancel
               </Button>
               <Button variant="primary" onClick={() => setIsOpen(false)}>
-                Action 1
+                Save
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -510,7 +601,7 @@ export const DialogShowcase: Story = {
     }}>
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+        gridTemplateColumns: 'repeat(3, 1fr)', 
         gap: '20px',
         backgroundColor: 'white',
         padding: '20px',
@@ -525,13 +616,15 @@ export const DialogShowcase: Story = {
               borderRadius: '12px', 
               padding: '24px',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600' }}>Basic dialog title</h3>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000000' }}>Basic dialog title</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
                 A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
               </p>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 'auto' }}>
                 <button style={{
                   background: 'white',
                   color: '#000000',
@@ -563,8 +656,8 @@ export const DialogShowcase: Story = {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="secondary">Action 2</Button>
-              <Button variant="primary">Action 1</Button>
+              <Button variant="secondary">Cancel</Button>
+              <Button variant="primary">Save</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -578,14 +671,16 @@ export const DialogShowcase: Story = {
               borderRadius: '12px', 
               padding: '24px',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <div style={{ color: '#8B5CF6', fontSize: '20px', marginBottom: '8px' }}>ℹ️</div>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600' }}>Basic dialog title</h3>
+              <div style={{ color: '#3B82F6', fontSize: '20px', marginBottom: '8px' }}>ℹ️</div>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000000' }}>Basic dialog title</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
                 A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
               </p>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 'auto' }}>
                 <button style={{
                   background: 'white',
                   color: '#000000',
@@ -628,8 +723,8 @@ export const DialogShowcase: Story = {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="secondary">Action 2</Button>
-              <Button variant="primary">Action 1</Button>
+              <Button variant="secondary">Cancel</Button>
+              <Button variant="primary">Save</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -644,7 +739,9 @@ export const DialogShowcase: Story = {
               padding: '24px',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
               textAlign: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
               <div style={{ 
                 width: '48px', 
@@ -656,13 +753,14 @@ export const DialogShowcase: Story = {
                 justifyContent: 'center', 
                 color: 'white', 
                 fontSize: '24px',
-                margin: '0 auto 16px auto'
+                margin: '0 auto 16px auto',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
               }}>ℹ️</div>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600' }}>Basic dialog title</h3>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000000' }}>Basic dialog title</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
                 A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
               </p>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 'auto' }}>
                 <button style={{
                   background: 'white',
                   color: '#000000',
@@ -713,13 +811,13 @@ export const DialogShowcase: Story = {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="secondary">Action 2</Button>
-              <Button variant="primary">Action 1</Button>
+              <Button variant="secondary">Cancel</Button>
+              <Button variant="primary">Save</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
-        {/* Dialog with List */}
+        {/* Dialog with List Items */}
         <Dialog>
           <DialogTrigger asChild>
             <div style={{ 
@@ -728,9 +826,11 @@ export const DialogShowcase: Story = {
               borderRadius: '12px', 
               padding: '24px',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600' }}>Basic dialog title</h3>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000000' }}>Basic dialog title</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
                 A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
               </p>
@@ -753,15 +853,20 @@ export const DialogShowcase: Story = {
                       justifyContent: 'center',
                       color: 'white',
                       fontSize: '12px',
-                      fontWeight: 'bold'
+                      fontWeight: 'bold',
+
                     }}>
                       A
                     </div>
-                    <span style={{ fontSize: '14px', color: '#404040' }}>List Item</span>
+                    <span style={{ 
+                      fontFamily: 'Source Sans 3, sans-serif',
+                      fontSize: '14px',
+                      color: '#404040'
+                    }}>List Item</span>
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 'auto' }}>
                 <button style={{
                   background: 'white',
                   color: '#000000',
@@ -839,6 +944,7 @@ export const DialogShowcase: Story = {
         </Dialog>
 
         {/* Dialog with Small Icon and List */}
+        {/* Dialog with Small Icon and List Items */}
         <Dialog>
           <DialogTrigger asChild>
             <div style={{ 
@@ -847,10 +953,12 @@ export const DialogShowcase: Story = {
               borderRadius: '12px', 
               padding: '24px',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <div style={{ color: '#8B5CF6', fontSize: '20px', marginBottom: '8px' }}>📋</div>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600' }}>Basic dialog title</h3>
+              <div style={{ color: '#D97706', fontSize: '20px', marginBottom: '8px' }}>📋</div>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '600', color: '#000000' }}>Basic dialog title</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: '#666666', lineHeight: '1.5' }}>
                 A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made.
               </p>
@@ -877,11 +985,15 @@ export const DialogShowcase: Story = {
                     }}>
                       A
                     </div>
-                    <span style={{ fontSize: '14px', color: '#404040' }}>List Item</span>
+                    <span style={{ 
+                      fontFamily: 'Source Sans 3, sans-serif',
+                      fontSize: '14px',
+                      color: '#404040'
+                    }}>List Item</span>
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 'auto' }}>
                 <button style={{
                   background: 'white',
                   color: '#000000',
@@ -963,8 +1075,8 @@ export const DialogShowcase: Story = {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="secondary">Action 2</Button>
-              <Button variant="primary">Action 1</Button>
+              <Button variant="secondary">Cancel</Button>
+              <Button variant="primary">Save</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
