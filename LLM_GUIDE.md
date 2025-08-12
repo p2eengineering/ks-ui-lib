@@ -249,6 +249,138 @@ interface ToggleProps {
   </DialogContent>
 </Dialog>
 
+### Checkbox Component
+
+**Import:**
+```tsx
+import { Checkbox } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface CheckboxProps {
+  checked?: boolean;
+  indeterminate?: boolean;
+  disabled?: boolean;
+  error?: boolean;
+  onChange?: (checked: boolean) => void;
+  className?: string;
+  children?: React.ReactNode;
+  leadingIcon?: React.ReactNode;
+}
+```
+
+**Checkbox States:**
+
+1. **Selected** - Blue square with white checkmark
+2. **Unselected** - White square with blue border
+3. **Indeterminate** - Purple square with white dash (or red border with red dash for error)
+4. **Error** - Red square with white checkmark (or red border for unselected)
+5. **Disabled** - Grey square with grey checkmark/dash
+
+**Usage Examples:**
+
+```tsx
+// Simple checkbox
+<Checkbox checked={isSelected} onChange={setIsSelected}>
+  Accept terms and conditions
+</Checkbox>
+
+// Indeterminate checkbox (for "select all" scenarios)
+<Checkbox 
+  indeterminate={true} 
+  onChange={handleSelectAll}
+>
+  Select All Items
+</Checkbox>
+
+// Error state checkbox
+<Checkbox 
+  checked={hasError} 
+  error={true}
+  onChange={handleErrorChange}
+>
+  I acknowledge the risk
+</Checkbox>
+
+// Disabled checkbox
+<Checkbox disabled checked={true}>
+  Cannot be changed
+</Checkbox>
+
+// Checkbox with leading icon
+<Checkbox 
+  checked={walletSelected} 
+  leadingIcon={<WalletIcon />}
+  onChange={setWalletSelected}
+>
+  Custodial Wallet
+</Checkbox>
+
+// Standalone checkbox (no label)
+<Checkbox checked={isActive} onChange={setIsActive} />
+```
+
+### Toast Component
+
+**Import:**
+```tsx
+import { Toast } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface ToastProps {
+  type?: 'success' | 'error' | 'processing';
+  title?: string;
+  message?: string;
+  onClose?: () => void;
+  autoClose?: boolean;
+  autoCloseDelay?: number;
+  className?: string;
+}
+```
+
+**Toast Types:**
+
+1. **Success** - Green border with checkmark icon
+2. **Error** - Red border with exclamation icon
+3. **Processing** - Orange border with spinning icon
+
+**Usage Examples:**
+
+```tsx
+// Success toast
+<Toast type="success" />
+
+// Error toast
+<Toast type="error" />
+
+// Processing toast
+<Toast type="processing" />
+
+// Custom title and message
+<Toast 
+  type="success"
+  title="Custom Success"
+  message="This is a custom success message."
+/>
+
+// Auto-closing toast
+<Toast 
+  type="success"
+  autoClose={true}
+  autoCloseDelay={3000}
+  onClose={() => console.log('Toast closed')}
+/>
+
+// Toast with close handler
+<Toast 
+  type="error"
+  onClose={() => handleToastClose()}
+/>
+```
+
 ## 🎨 Design Patterns
 
 ### Color Usage Guidelines

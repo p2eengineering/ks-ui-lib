@@ -37,5 +37,17 @@ export type {
   DialogCloseProps,
 } from './components/Dialog/Dialog';
 
+// Chip Component
+export { default as Chip } from './components/Chip/Chip';
+export type { ChipProps } from './components/Chip/Chip';
+
+// Checkbox Component
+export { default as Checkbox } from './components/Checkbox/Checkbox';
+export type { CheckboxProps } from './components/Checkbox/Checkbox';
+
+// Toast Component
+export { default as Toast } from './components/Toast/Toast';
+export type { ToastProps } from './components/Toast/Toast';
+
 // Note: Design tokens are available in SCSS format at src/design-tokens/design-tokens.scss
 // Import them in your SCSS files: @import '~@ks/component-library/src/design-tokens/design-tokens';

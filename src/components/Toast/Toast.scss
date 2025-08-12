@@ -1,0 +1,124 @@
+@import "../../design-tokens/design-tokens";
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background-color: $color-surface-light-grey;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-family: $font-family-primary;
+  max-width: 400px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: $color-white;
+
+    &--spinning {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  &__message {
+    font-size: 14px;
+    font-weight: $font-weight-normal;
+    color: $color-text-primary;
+    line-height: 1.4;
+  }
+
+  &__close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: $color-text-primary;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: $color-surface-grey;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-accent-blue;
+      outline-offset: 2px;
+    }
+  }
+
+  // Success variant
+  &--success {
+    border-color: $color-success-base;
+
+    .toast__icon {
+      background-color: $color-success-base;
+    }
+  }
+
+  // Error variant
+  &--error {
+    border-color: $color-danger-base;
+
+    .toast__icon {
+      background-color: $color-danger-base;
+    }
+  }
+
+  // Processing variant
+  &--processing {
+    border-color: $color-anticipation-base;
+
+    .toast__icon {
+      background-color: $color-anticipation-base;
+    }
+  }
+
+  // Visibility states
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &--hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+// Spinning animation for processing icon
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
