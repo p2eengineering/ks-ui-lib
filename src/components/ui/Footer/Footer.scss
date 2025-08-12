@@ -1,0 +1,48 @@
+@import "src/styles/variables";
+@import "src/styles/style";
+
+.footer-main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background-color: $white;
+  height: 75px;
+
+  .footer-left-side {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .footer-right-side {
+    display: flex;
+    align-items: center;
+    margin-right: 39px;
+  }
+  .footer-content {
+    color: $grey-2;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px)  {
+  .footer-main{
+    .footer-left-side {
+      gap: 20px;
+    }
+    .footer-right-side {
+      margin-right: 10px;
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .footer-main {
+    display: grid;
+    justify-content: center;
+    .footer-left-side {
+      display: flex;
+      gap: 60px;
+    }
+    .footer-right-side {
+      justify-content: center;
+      margin-right: 0;
+    }
+  }
+}

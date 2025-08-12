@@ -1,0 +1,40 @@
+.plan-card {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  .plan-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+  .plan-pricing {
+    font-size: 20px;
+    text-align: center;
+    span {
+      font-size: 36px;
+      font-weight: 700;
+    }
+  }
+  .perk {
+    color: #4a3fc5;
+    text-align: center;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 600;
+    max-width: 150px;
+    margin: auto;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.plan-card-ctr {
+    flex: 1;
+    .recommended{
+
+    }
+}

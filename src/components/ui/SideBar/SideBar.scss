@@ -1,0 +1,68 @@
+@import "../../styles/variables";
+
+.sidebar {
+  position: fixed;
+  top: 100px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  width: 300px;
+  // padding: 30px 20px;
+  z-index: 1;
+  border-right: 1px solid #e5e5e5;
+  transition: all 0.25s linear;
+  .ks-main-logo {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .logo {
+    width: 195.121px;
+    height: 38.182px;
+    cursor: pointer;
+  }
+  .sidebar-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    a {
+      display: flex;
+      align-items: center;
+      padding: 10px 13px;
+      color: $dark;
+      border-radius: 10px;
+
+      &.active {
+        color: $white;
+        border-left: 4px solid $blue-2;
+        background: $blue-2;
+
+        .sidebar-items {
+          color: $white;
+        }
+
+      }
+    }
+    .sidebar-link {
+      cursor: pointer;
+      text-decoration: none;
+      gap: 15px;
+      height: 48px;
+      margin-bottom: 25px;
+    }
+    .sidebar-items {
+      font-size: 16px;
+      min-width: 130px;
+      color: $dark;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}

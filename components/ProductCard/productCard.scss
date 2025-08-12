@@ -1,0 +1,59 @@
+.ks-product-card {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  .ks-product-svg {
+    min-width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+  }
+  .ks-product-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .ks-product-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .active-plan{
+        border: 1px solid #3BD378;
+        border-radius: 5px;
+        color: #3BD378;
+        font-size: 12px;
+        padding: 0.25rem 0.5rem;
+    }
+    .free-trial{
+        padding: 0.25rem 0.5rem;
+        font-size: 10px;
+        color:#404040;
+        background-color: #E2F9EB;
+        border-radius: 5px;
+    }
+  }
+  .ks-product-desc {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0.5rem 0 1rem 0;
+  }
+  .card-footer {
+    display: flex;
+    gap: 2rem;
+    .plan-text {
+      font-size: 10px;
+      color: #767e93;
+    }
+    .plan-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #685fd3;
+    }
+  }
+
+}

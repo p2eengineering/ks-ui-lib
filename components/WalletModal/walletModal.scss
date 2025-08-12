@@ -1,0 +1,95 @@
+@import "../../styles/variables";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background-color: rgba(0, 0, 0, 0.541);
+
+  .wallet-modal {
+    position: relative;
+    max-width: 1080px;
+    width: 90%;
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      rgba(52, 203, 77, 0.2) 0%,
+      rgba(52, 203, 77, 0) 100%
+    );
+    background-color: black;
+    border-radius: 20px;
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    .kalp-bg-logo {
+      position: absolute;
+      left: 0;
+      opacity: 0.5;
+    }
+    .wallet-txt {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      .wallet-main-txt {
+        font-size: 40px;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+      }
+      .wallet-desc-txt {
+        color: white;
+        font-size: 17;
+        text-align: center;
+      }
+    }
+    .close-modal-btn {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      border: none;
+      top: 0.6rem;
+      right: 0.6rem;
+      z-index: 99999;
+      filter: drop-shadow(2px 4px 10px rgba(0, 0, 0, 0.1));
+    }
+    .wallet-list-ctr {
+      border: 4px solid white;
+      background: rgba(250, 250, 250, 0.95);
+
+      box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 8px;
+      width: 50%;
+      padding: 1rem;
+      h3 {
+        font-weight: 700;
+      }
+      .wallet-row {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        padding: 10px;
+        p {
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+      .btn-black {
+        margin-top: 1rem;
+        width: 100%;
+        max-width: none;
+        padding: 1rem 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+.subscription-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid #e5e5e5;
+  .product-det {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .product-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .card-icon {
+      min-width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      background-color: #e5e5e5;
+      border-radius: 5px;
+    }
+  }
+  .card-head {
+    color: #a0a0a0;
+    font-size: 12px;
+  }
+  .price {
+    font-size: 12px;
+  }
+  span {
+    font-weight: 700;
+  }
+  .card-action-grp {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .dropdown-toggle{
+      border: none;
+    }
+    .dropdown-menu{
+      box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+      border: none;
+      padding: 0;
+      border-radius: 10px;
+      .dropdown-item{
+        padding:0.5rem 0.5rem; 
+      }
+      .cancel{
+        color: #E75249;
+      }
+      hr{
+        color: rgba(0, 0, 0, 0.6);
+        margin:0;
+      }
+    }
+  }
+  .active-plan {
+    border: 1px solid #3bd378;
+    border-radius: 5px;
+    color: #3bd378;
+    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+  }
+  .inactive-plan {
+    border: 1px solid #E75249;
+    border-radius: 5px;
+    color: #E75249;
+    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+  }
+}
