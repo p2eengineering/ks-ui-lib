@@ -10,7 +10,7 @@ const preview: Preview = {
       },
     },
     backgrounds: {
-      default: 'light',
+      default: 'grey',
       values: [
         {
           name: 'light',
@@ -22,7 +22,7 @@ const preview: Preview = {
         },
         {
           name: 'grey',
-          value: '#F9F9F9',
+          value: '#F5F5F5',
         },
       ],
     },

@@ -1,0 +1,364 @@
+@import "../../design-tokens/design-tokens";
+
+// =============================================================================
+// TOGGLE COMPONENT
+// =============================================================================
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-family: $font-family-primary;
+  
+  &__label {
+    font-size: $font-size-label-medium;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+  
+  // Sizes
+  &--small {
+    .toggle-switch__track {
+      width: 36px;
+      height: 20px;
+    }
+    
+    .toggle-switch__handle {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .toggle-segmented__segment {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-label-small;
+    }
+    
+    .toggle-theme__button {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  &--medium {
+    .toggle-switch__track {
+      width: 44px;
+      height: 24px;
+    }
+    
+    .toggle-switch__handle {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .toggle-segmented__segment {
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-label-medium;
+    }
+    
+    .toggle-theme__button {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  &--large {
+    .toggle-switch__track {
+      width: 52px;
+      height: 28px;
+    }
+    
+    .toggle-switch__handle {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .toggle-segmented__segment {
+      padding: $spacing-md $spacing-lg;
+      font-size: $font-size-label-large;
+    }
+    
+    .toggle-theme__button {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    .toggle-switch,
+    .toggle-segmented__segment,
+    .toggle-theme__button {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// =============================================================================
+// TOGGLE SWITCH (Type 1)
+// =============================================================================
+
+.toggle-switch {
+  position: relative;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  &:focus-visible {
+    outline: 2px solid $color-accent-blue;
+    outline-offset: 2px;
+  }
+  
+  &__track {
+    position: relative;
+    background-color: $color-surface-grey;
+    border-radius: $border-radius-full;
+    transition: background-color 0.2s ease-in-out;
+    
+    .toggle-switch--checked & {
+      background-color: $color-success-base;
+    }
+  }
+  
+  &__handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: $color-white;
+    border-radius: $border-radius-full;
+    transition: transform 0.2s ease-in-out;
+    box-shadow: $shadow-sm;
+    
+    .toggle-switch--checked & {
+      transform: translateX(20px);
+    }
+    
+    .toggle--small .toggle-switch--checked & {
+      transform: translateX(16px);
+    }
+    
+    .toggle--large .toggle-switch--checked & {
+      transform: translateX(24px);
+    }
+  }
+  
+
+}
+
+// =============================================================================
+// SEGMENTED CONTROL (Type 2)
+// =============================================================================
+
+.toggle-segmented {
+  display: flex;
+  background-color: $color-surface-grey;
+  border-radius: $border-radius-lg;
+  padding: 3px;
+  gap: 0;
+  position: relative;
+  
+  &__segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    background: transparent;
+    border-radius: $border-radius-md;
+    font-family: $font-family-primary;
+    font-size: $font-size-label-medium;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    min-width: 60px;
+    position: relative;
+    z-index: 1;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid $color-accent-blue;
+      outline-offset: 2px;
+    }
+    
+    &--active {
+      background-color: $color-success-base;
+      color: $color-white;
+      box-shadow: $shadow-sm;
+    }
+  }
+  
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: $color-text-secondary;
+    
+    .toggle-segmented__segment--active & {
+      color: $color-white;
+    }
+  }
+  
+  &__label {
+    font-weight: $font-weight-medium;
+  }
+}
+
+// =============================================================================
+// THEME SELECTOR (Type 3)
+// =============================================================================
+
+.toggle-theme {
+  position: relative;
+  
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: $color-accent-grey;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($color-accent-grey, 5%);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid $color-accent-blue;
+      outline-offset: 2px;
+    }
+  }
+  
+  &__icon {
+    font-size: 16px;
+    color: $color-white;
+  }
+  
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: $spacing-xs;
+    background-color: $color-white;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-lg;
+    border: 1px solid $color-surface-grey;
+    min-width: 120px;
+    z-index: $z-index-dropdown;
+    overflow: hidden;
+  }
+  
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    background: transparent;
+    font-family: $font-family-primary;
+    font-size: $font-size-label-medium;
+    color: $color-white;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    
+    &:hover {
+      background-color: $color-accent-grey;
+    }
+    
+    &:focus-visible {
+      outline: 2px solid $color-accent-blue;
+      outline-offset: -2px;
+    }
+    
+    &--active {
+      background-color: $color-accent-blue;
+      color: $color-white;
+      
+      &:hover {
+        background-color: darken($color-accent-blue, 5%);
+      }
+    }
+    
+    &:not(&--active) {
+      background-color: $color-surface-dark-grey;
+      color: $color-white;
+    }
+  }
+  
+  &__option-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  &__option-label {
+    flex: 1;
+    text-align: left;
+  }
+  
+  &__option-check {
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+}
+
+// =============================================================================
+// RESPONSIVE DESIGN
+// =============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .toggle-segmented {
+    &__segment {
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-label-small;
+    }
+  }
+  
+  .toggle-theme {
+    &__dropdown {
+      right: auto;
+      left: 0;
+    }
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes toggleSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toggle-theme__dropdown {
+  animation: dropdownFadeIn 0.2s ease-out;
+}

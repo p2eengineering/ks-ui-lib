@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog Component Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin-bottom: 40px;
+        }
+        .test-section h2 {
+            color: #404040;
+            margin-bottom: 20px;
+        }
+        .button-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .test-button {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .test-button:hover {
+            background: #333333;
+        }
+        .test-button.secondary {
+            background: white;
+            color: #000000;
+            border: 2px solid #000000;
+        }
+        .test-button.secondary:hover {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Dialog Component Test</h1>
+        <p>This page tests the Dialog component functionality. Click the buttons below to see different dialog variants.</p>
+        
+        <div class="test-section">
+            <h2>Basic Dialog</h2>
+            <div class="button-grid">
+                <button class="test-button" onclick="openBasicDialog()">Open Basic Dialog</button>
+                <button class="test-button secondary" onclick="openControlledDialog()">Open Controlled Dialog</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Dialog with Icons</h2>
+            <div class="button-grid">
+                <button class="test-button" onclick="openSmallIconDialog()">Small Icon Dialog</button>
+                <button class="test-button" onclick="openLargeIconDialog()">Large Icon Dialog</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Dialog with Content</h2>
+            <div class="button-grid">
+                <button class="test-button" onclick="openListDialog()">List Dialog</button>
+                <button class="test-button" onclick="openIconListDialog()">Icon + List Dialog</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Dialog Sizes</h2>
+            <div class="button-grid">
+                <button class="test-button" onclick="openSmallDialog()">Small</button>
+                <button class="test-button" onclick="openMediumDialog()">Medium</button>
+                <button class="test-button" onclick="openLargeDialog()">Large</button>
+                <button class="test-button" onclick="openXLDialog()">Extra Large</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the component library
+        import { 
+            Dialog, 
+            DialogTrigger, 
+            DialogContent, 
+            DialogHeader, 
+            DialogTitle, 
+            DialogDescription, 
+            DialogFooter,
+            Button 
+        } from './dist/index.esm.js';
+
+        // Create React root
+        const { createRoot } = await import('https://esm.sh/react-dom/client');
+        const React = await import('https://esm.sh/react');
+
+        // Basic Dialog
+        function openBasicDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const BasicDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, null,
+                            React.createElement(DialogTitle, null, "Basic Dialog Title"),
+                            React.createElement(DialogDescription, null, 
+                                "A dialog is a type of modal window that appears in front of app content to provide critical information, or prompt for a decision to be made."
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(BasicDialog));
+            
+            // Cleanup when dialog closes
+            const cleanup = () => {
+                root.unmount();
+                document.body.removeChild(dialogRoot);
+            };
+            
+            setTimeout(() => {
+                if (!dialogRoot.isConnected) cleanup();
+            }, 100);
+        }
+
+        // Controlled Dialog
+        function openControlledDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const ControlledDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, null,
+                            React.createElement(DialogTitle, null, "Controlled Dialog"),
+                            React.createElement(DialogDescription, null, 
+                                "This dialog is controlled externally. The open state is managed by the parent component."
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(ControlledDialog));
+        }
+
+        // Small Icon Dialog
+        function openSmallIconDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const SmallIconDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                const iconStyle = { color: '#8B5CF6', fontSize: '20px', marginBottom: '8px' };
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, null,
+                            React.createElement('div', { style: iconStyle }, 'ℹ️'),
+                            React.createElement(DialogTitle, null, "Dialog with Small Icon"),
+                            React.createElement(DialogDescription, null, 
+                                "This dialog includes a small icon above the title."
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(SmallIconDialog));
+        }
+
+        // Large Icon Dialog
+        function openLargeIconDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const LargeIconDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                const iconContainerStyle = {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginBottom: '16px'
+                };
+                
+                const iconStyle = {
+                    width: '48px',
+                    height: '48px',
+                    backgroundColor: '#8B5CF6',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '24px'
+                };
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, { style: { textAlign: 'center' } },
+                            React.createElement('div', { style: iconContainerStyle },
+                                React.createElement('div', { style: iconStyle }, 'ℹ️')
+                            ),
+                            React.createElement(DialogTitle, null, "Dialog with Large Icon"),
+                            React.createElement(DialogDescription, null, 
+                                "This dialog includes a large centered icon above the title."
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(LargeIconDialog));
+        }
+
+        // List Dialog
+        function openListDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const ListDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                const listItems = [1, 2, 3].map(item => 
+                    React.createElement('div', { 
+                        key: item,
+                        style: { 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '12px',
+                            padding: '12px 0',
+                            borderBottom: item < 3 ? '1px solid #E6E6E6' : 'none'
+                        }
+                    },
+                        React.createElement('div', {
+                            style: {
+                                width: '24px',
+                                height: '24px',
+                                backgroundColor: '#8B5CF6',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: 'bold'
+                            }
+                        }, 'A'),
+                        React.createElement('span', { 
+                            style: { 
+                                fontFamily: 'Source Sans 3, sans-serif',
+                                fontSize: '14px',
+                                color: '#404040'
+                            }
+                        }, 'List Item')
+                    )
+                );
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, null,
+                            React.createElement(DialogTitle, null, "Dialog with List"),
+                            React.createElement(DialogDescription, null, 
+                                "This dialog includes list items below the description."
+                            )
+                        ),
+                        React.createElement('div', { style: { padding: '0 24px 24px 24px' } },
+                            React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '12px' } },
+                                listItems
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(ListDialog));
+        }
+
+        // Icon + List Dialog
+        function openIconListDialog() {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const IconListDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                const listItems = [1, 2, 3].map(item => 
+                    React.createElement('div', { 
+                        key: item,
+                        style: { 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '12px',
+                            padding: '12px 0',
+                            borderBottom: item < 3 ? '1px solid #E6E6E6' : 'none'
+                        }
+                    },
+                        React.createElement('div', {
+                            style: {
+                                width: '24px',
+                                height: '24px',
+                                backgroundColor: '#8B5CF6',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: 'bold'
+                            }
+                        }, 'A'),
+                        React.createElement('span', { 
+                            style: { 
+                                fontFamily: 'Source Sans 3, sans-serif',
+                                fontSize: '14px',
+                                color: '#404040'
+                            }
+                        }, 'List Item')
+                    )
+                );
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, null,
+                        React.createElement(DialogHeader, null,
+                            React.createElement('div', { 
+                                style: { 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '12px', 
+                                    marginBottom: '8px' 
+                                }
+                            }, '📋'),
+                            React.createElement(DialogTitle, null, "Dialog with Icon & List"),
+                            React.createElement(DialogDescription, null, 
+                                "This dialog includes both an icon and list items."
+                            )
+                        ),
+                        React.createElement('div', { style: { padding: '0 24px 24px 24px' } },
+                            React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '12px' } },
+                                listItems
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(IconListDialog));
+        }
+
+        // Size dialogs
+        function openSmallDialog() {
+            openSizeDialog('sm', 'Small Dialog');
+        }
+        
+        function openMediumDialog() {
+            openSizeDialog('md', 'Medium Dialog');
+        }
+        
+        function openLargeDialog() {
+            openSizeDialog('lg', 'Large Dialog');
+        }
+        
+        function openXLDialog() {
+            openSizeDialog('xl', 'Extra Large Dialog');
+        }
+        
+        function openSizeDialog(size, title) {
+            const dialogRoot = document.createElement('div');
+            document.body.appendChild(dialogRoot);
+            const root = createRoot(dialogRoot);
+            
+            const SizeDialog = () => {
+                const [isOpen, setIsOpen] = React.useState(true);
+                
+                return React.createElement(Dialog, { open: isOpen, onOpenChange: setIsOpen },
+                    React.createElement(DialogContent, { size: size },
+                        React.createElement(DialogHeader, null,
+                            React.createElement(DialogTitle, null, title),
+                            React.createElement(DialogDescription, null, 
+                                `This is a ${size} sized dialog. The content area adjusts based on the size prop.`
+                            )
+                        ),
+                        React.createElement(DialogFooter, null,
+                            React.createElement(Button, { 
+                                variant: "secondary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Cancel"),
+                            React.createElement(Button, { 
+                                variant: "primary", 
+                                onClick: () => setIsOpen(false) 
+                            }, "Confirm")
+                        )
+                    )
+                );
+            };
+            
+            root.render(React.createElement(SizeDialog));
+        }
+
+        // Make functions globally available
+        window.openBasicDialog = openBasicDialog;
+        window.openControlledDialog = openControlledDialog;
+        window.openSmallIconDialog = openSmallIconDialog;
+        window.openLargeIconDialog = openLargeIconDialog;
+        window.openListDialog = openListDialog;
+        window.openIconListDialog = openIconListDialog;
+        window.openSmallDialog = openSmallDialog;
+        window.openMediumDialog = openMediumDialog;
+        window.openLargeDialog = openLargeDialog;
+        window.openXLDialog = openXLDialog;
+    </script>
+</body>
+</html>

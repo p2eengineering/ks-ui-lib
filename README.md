@@ -1,167 +1,166 @@
-# Wallet Configuration Web App
+# KS Component Library
 
-A comprehensive React TypeScript application for configuring different types of cryptocurrency wallets with advanced settings including gasless transactions and security features.
+A professional React component library built with TypeScript and Source Sans 3 typography, following the KS design system. This library provides a comprehensive set of reusable UI components designed for modern web applications.
 
-## Features
+## 🎨 Features
 
-### 🏦 Wallet Types Supported
+- **Comprehensive Component Set**: Starting with Button component, expanding to include more UI elements
+- **Consistent Design System**: All components follow the KS design system
+- **Source Sans 3 Typography**: Modern, readable font throughout
+- **KS Design System Colors**: Professional color palette with semantic color tokens
+- **TypeScript Support**: Full type safety for all components
+- **Storybook Documentation**: Interactive component showcase and documentation
+- **Modular Architecture**: Easy to import individual components or the entire library
 
-1. **Custodial Wallet**
-   - Third-party managed wallet with enhanced security
-   - Support for major providers (Fireblocks, Coinbase Custody, BitGo)
-   - API key management and webhook configuration
-   - Regulatory compliance features
+## 📦 Installation
 
-2. **Self-Custodial Wallet**
-   - Full control over private keys
-   - Support for private key and mnemonic phrase input
-   - Multiple network support (Ethereum, Polygon, BSC, Arbitrum, Optimism)
-   - Advanced transaction settings
-
-3. **MPC Wallet (Multi-Party Computation)**
-   - Distributed security with threshold signatures
-   - Configurable threshold (t-of-n) schemes
-   - Party management and key share generation
-   - Enhanced protection against single points of failure
-
-### ⚡ Gasless Transactions
-
-All wallet types support gasless transaction configuration:
-- Sponsor address configuration
-- Relayer URL setup
-- Gas limit management
-- Multiple gas token options (USDC, USDT, DAI, ETH)
-
-### 🔒 Security Features
-
-- Two-factor authentication (2FA)
-- Biometric authentication
-- Session timeout configuration
-- Transaction amount limits
-- Address whitelisting
-- Advanced security settings per wallet type
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd wallet-configuration-app
+npm install @ks/component-library
 ```
 
-2. Install dependencies:
+## 🚀 Usage
+
+```tsx
+import { Button } from '@ks/component-library';
+import '@ks/component-library/dist/styles.css';
+
+function App() {
+  return (
+    <div>
+      <Button variant="primary" size="medium">
+        Click Me
+      </Button>
+      
+      <Button variant="secondary" size="large" icon="download">
+        Download
+      </Button>
+      
+      <Button variant="text" disabled>
+        Disabled Button
+      </Button>
+    </div>
+  );
+}
+```
+
+## 🧩 Available Components
+
+### Button Component
+
+The Button component is the foundation of our interactive elements, featuring multiple sizes, variants, and states.
+
+#### Button Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'text'` | `'primary'` | Visual style variant |
+| `size` | `'small' \| 'medium' \| 'large' \| 'xl' \| '2xl' \| '3xl'` | `'medium'` | Button size |
+| `state` | `'normal' \| 'hover' \| 'disabled'` | `'normal'` | Button state |
+| `icon` | `'none' \| 'download' \| 'arrow'` | `'none'` | Icon to display |
+| `disabled` | `boolean` | `false` | Whether button is disabled |
+| `onClick` | `() => void` | - | Click handler |
+| `children` | `React.ReactNode` | - | Button content |
+
+#### Button Sizes
+
+| Size | Width | Height | Font Size |
+|------|-------|--------|-----------|
+| small | 105px | 32px | 14px |
+| medium | 105px | 36px | 14px |
+| large | 105px | 46px | 16px |
+| xl | 105px | 48px | 16px |
+| 2xl | 190px | 60px | 18px |
+| 3xl | 227px | 64px | 18px |
+
+## 🎨 Design System
+
+Our design system provides a consistent foundation for all components, ensuring visual harmony and accessibility across your application.
+
+### Colors
+- **Primary**: KS Black (#000000)
+- **Secondary**: KS White (#FFFFFF)
+- **Accent Blue**: #4A3FCF
+- **Accent Green**: #CBFD13
+- **Accent Grey**: #F9F9F9
+
+### Typography
+- **Font Family**: Source Sans 3
+- **Font Weight**: Bold (700)
+- **Line Height**: 120%
+- **Border Radius**: 10px
+
+## 🚀 Roadmap
+
+We're actively developing additional components to expand the library:
+
+- [ ] **Input Components**: Text inputs, textareas, select dropdowns
+- [ ] **Layout Components**: Cards, containers, grids
+- [ ] **Navigation Components**: Navigation bars, breadcrumbs, pagination
+- [ ] **Feedback Components**: Alerts, notifications, modals
+- [ ] **Data Display**: Tables, lists, badges
+- [ ] **Form Components**: Form groups, validation, file uploads
+
+## 📚 Storybook
+
+Run Storybook to explore all components and their variants:
+
 ```bash
+npm run storybook
+```
+
+Visit `http://localhost:6006` to see the interactive component documentation and playground.
+
+## 🛠️ Development
+
+### Prerequisites
+- Node.js 16+
+- npm or yarn
+
+### Setup
+```bash
+git clone <repository-url>
+cd button-component-library
 npm install
 ```
 
-3. Start the development server:
-```bash
-npm start
-```
+### Available Scripts
+- `npm run storybook` - Start Storybook development server
+- `npm run build-storybook` - Build Storybook for production
+- `npm run build` - Build the component library
+- `npm run test` - Run tests
+- `npm run build:lib` - Build library with rollup configuration
 
-4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### Building for Production
-
+### Building the Library
 ```bash
 npm run build
 ```
 
-## Project Structure
+This creates:
+- `dist/index.js` - CommonJS bundle
+- `dist/index.esm.js` - ES Module bundle
+- `dist/index.d.ts` - TypeScript declarations
+- `dist/styles.css` - Compiled CSS
 
+### Component Structure
 ```
 src/
 ├── components/
-│   └── wallet-configs/
-│       ├── CustodialWalletConfig.tsx
-│       ├── SelfCustodialWalletConfig.tsx
-│       └── MPCWalletConfig.tsx
-├── types/
-│   └── wallet.ts
-├── App.tsx
-├── App.scss
-├── index.tsx
-└── index.scss
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.scss
+│   │   ├── Button.stories.tsx
+│   │   └── README.md
+│   └── [Future Components]/
+├── design-tokens/
+│   └── design-tokens.scss
+└── index.tsx
 ```
 
-## Usage
+## 📄 License
 
-### Custodial Wallet Configuration
+MIT License - see LICENSE file for details.
 
-1. Select "Custodial Wallet" from the sidebar
-2. Choose your preferred provider (Fireblocks, Coinbase Custody, BitGo, or Custom)
-3. Enter your API credentials
-4. Configure gasless transaction settings (optional)
-5. Set up security parameters
-6. Test connection and save configuration
-
-### Self-Custodial Wallet Configuration
-
-1. Select "Self-Custodial Wallet" from the sidebar
-2. Choose your network (Ethereum, Polygon, BSC, etc.)
-3. Select key type (Private Key or Mnemonic Phrase)
-4. Enter your private key or mnemonic phrase
-5. Configure transaction settings (gas limit, gas price, etc.)
-6. Set up gasless transactions and security features
-7. Test connection and save configuration
-
-### MPC Wallet Configuration
-
-1. Select "MPC Wallet" from the sidebar
-2. Configure threshold and total parties (t-of-n scheme)
-3. Add party IDs for the MPC setup
-4. Set up transaction parameters
-5. Configure gasless transactions and security
-6. Generate key shares for all parties
-7. Test connection and save configuration
-
-## Custom Components Used
-
-The application utilizes custom components from the `@components/` directory:
-
-- **Button**: Custom styled buttons with various states
-- **CustomInputField**: Enhanced input fields with prefix icons
-- **CustomDropdown**: Dropdown components with icons and labels
-- **Toggle**: Toggle switches for boolean settings
-- **CustomModal**: Modal dialogs for additional interactions
-
-## Configuration Storage
-
-Currently, configurations are logged to the console. In a production environment, you would want to:
-
-1. Implement secure storage (encrypted local storage or backend API)
-2. Add proper validation and error handling
-3. Implement real wallet connection testing
-4. Add proper key generation libraries (bip39, crypto-js, etc.)
-
-## Security Considerations
-
-⚠️ **Important Security Notes:**
-
-- This is a demonstration application
-- Never store real private keys or mnemonic phrases in plain text
-- Implement proper encryption for sensitive data
-- Use secure key generation libraries in production
-- Add proper input validation and sanitization
-- Implement rate limiting and other security measures
-
-## Technologies Used
-
-- **React 18** - UI framework
-- **TypeScript** - Type safety and development experience
-- **React Bootstrap** - UI components and styling
-- **React Icons** - Icon library
-- **Sass** - CSS preprocessing
-- **Web3.js/Ethers.js** - Blockchain interaction (ready for integration)
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -169,10 +168,6 @@ Currently, configurations are logged to the console. In a production environment
 4. Add tests if applicable
 5. Submit a pull request
 
-## License
+## 📞 Support
 
-This project is licensed under the MIT License.
-
-## Support
-
-For support and questions, please open an issue in the repository.
+For questions or issues, please open an issue on GitHub.
