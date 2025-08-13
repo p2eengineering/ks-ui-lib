@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './Tooltip.scss';
 
 export interface TooltipProps {
   type?: 'type1' | 'type2' | 'type3';
@@ -8,6 +7,7 @@ export interface TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
   showArrow?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -17,6 +17,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   position = 'bottom',
   showArrow = false,
   className = '',
+  style,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -87,7 +88,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className="tooltip-container">
+    <div className="tooltip-container" style={style}>
       <div
         ref={triggerRef}
         className="tooltip__trigger"

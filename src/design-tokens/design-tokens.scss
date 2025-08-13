@@ -373,25 +373,25 @@ $z-index-tooltip: 1070;
 @mixin grid-row {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -($grid-gutter-mobile / 2);
+  margin: 0 calc(-1 * #{$grid-gutter-mobile} / 2);
   
   @include tabs {
-    margin: 0 -($grid-gutter-tabs / 2);
+    margin: 0 calc(-1 * #{$grid-gutter-tabs} / 2);
   }
   
   @include desktop {
-    margin: 0 -($grid-gutter-desktop / 2);
+    margin: 0 calc(-1 * #{$grid-gutter-desktop} / 2);
   }
 }
 
 @mixin grid-col {
-  padding: 0 ($grid-gutter-mobile / 2);
+  padding: 0 calc(#{$grid-gutter-mobile} / 2);
   
   @include tabs {
-    padding: 0 ($grid-gutter-tabs / 2);
+    padding: 0 calc(#{$grid-gutter-tabs} / 2);
   }
   
   @include desktop {
-    padding: 0 ($grid-gutter-desktop / 2);
+    padding: 0 calc(#{$grid-gutter-desktop} / 2);
   }
 }

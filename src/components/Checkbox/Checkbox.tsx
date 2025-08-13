@@ -8,7 +8,9 @@ export interface CheckboxProps {
   error?: boolean;
   onChange?: (checked: boolean) => void;
   className?: string;
+  style?: React.CSSProperties;
   children?: React.ReactNode;
+  label?: string;
   leadingIcon?: React.ReactNode;
 }
 
@@ -19,7 +21,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
   error = false,
   onChange,
   className = '',
+  style,
   children,
+  label,
   leadingIcon,
 }) => {
   const handleChange = () => {
@@ -39,7 +43,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <label className={componentClasses}>
+    <label className={componentClasses} style={style}>
       <input
         type="checkbox"
         checked={checked}
@@ -62,7 +66,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
           {leadingIcon}
         </span>
       )}
-      {children && <span className="checkbox__label">{children}</span>}
+      {(children || label) && <span className="checkbox__label">{children || label}</span>}
     </label>
   );
 };

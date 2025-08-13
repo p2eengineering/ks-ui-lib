@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { FaTimes } from 'react-icons/fa';
-import './Dialog.scss';
 
 // =============================================================================
 // DIALOG CONTEXT
@@ -94,12 +93,14 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({ children, asChild = false
 interface DialogContentProps {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const DialogContent: React.FC<DialogContentProps> = ({
   children,
   className = '',
+  style,
   size = 'md',
 }) => {
   const { isOpen, onOpenChange } = useDialogContext();
@@ -136,6 +137,7 @@ const DialogContent: React.FC<DialogContentProps> = ({
       <div
         ref={contentRef}
         className={`dialog-content dialog-content--${size} ${className}`}
+        style={style}
         role="dialog"
         aria-modal="true"
       >

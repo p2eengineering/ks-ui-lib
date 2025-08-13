@@ -11,6 +11,7 @@ export interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -23,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   className = '',
+  style,
   type = 'button'
 }) => {
   const getIcon = () => {
@@ -49,6 +51,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       className={buttonClasses}
+      style={style}
       onClick={onClick}
       disabled={disabled || state === 'disabled'}
     >

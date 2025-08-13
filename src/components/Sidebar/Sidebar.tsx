@@ -8,7 +8,6 @@ import {
   FaKey, 
   FaCog 
 } from 'react-icons/fa';
-import './Sidebar.scss';
 
 export interface SidebarItem {
   id: string;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, GridRow, GridCol } from './Grid';
-import './Grid.scss';
 
 const GridTest: React.FC = () => {
   const demoBoxStyle = {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FaBars, FaBell, FaQuestionCircle, FaTh, FaWallet } from 'react-icons/fa';
-import './Header.scss';
 
 export interface HeaderProps {
   onMenuToggle?: () => void;

@@ -9,6 +9,7 @@ export interface ChipProps {
   leadingIcon?: React.ReactNode;
   disabled?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
   draggable?: boolean;
 }
@@ -20,6 +21,7 @@ const Chip: React.FC<ChipProps> = ({
   leadingIcon,
   disabled = false,
   className = '',
+  style,
   onClick,
   draggable = false,
 }) => {
@@ -47,6 +49,7 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <div 
       className={componentClasses}
+      style={style}
       onClick={handleClick}
       draggable={draggable}
     >

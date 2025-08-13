@@ -15,6 +15,7 @@ export interface DropdownProps {
   placeholder?: string;
   label?: string;
   onSelect?: (value: string) => void;
+  onChange?: (value: string) => void;
   searchable?: boolean;
   searchPlaceholder?: string;
   disabled?: boolean;
@@ -28,6 +29,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder = '-- Select --',
   label,
   onSelect,
+  onChange,
   searchable = false,
   searchPlaceholder = 'Search...',
   disabled = false,
@@ -75,6 +77,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleSelect = (option: DropdownOption) => {
     if (!option.disabled) {
       onSelect?.(option.value);
+      onChange?.(option.value);
       setIsOpen(false);
       setSearchTerm('');
       setHighlightedIndex(-1);

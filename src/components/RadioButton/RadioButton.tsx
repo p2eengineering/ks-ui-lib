@@ -8,7 +8,9 @@ export interface RadioButtonProps {
   value?: string;
   onChange?: (checked: boolean) => void;
   className?: string;
+  style?: React.CSSProperties;
   children?: React.ReactNode;
+  label?: string;
 }
 
 const RadioButton: React.FC<RadioButtonProps> = ({
@@ -18,7 +20,9 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   value,
   onChange,
   className = '',
+  style,
   children,
+  label,
 }) => {
   const handleChange = () => {
     if (!disabled && onChange) {
@@ -34,7 +38,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <label className={componentClasses}>
+    <label className={componentClasses} style={style}>
       <input
         type="radio"
         checked={checked}
@@ -47,7 +51,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
       <div className="radio-button__circle">
         {checked && <div className="radio-button__dot" />}
       </div>
-      {children && <span className="radio-button__label">{children}</span>}
+      {(children || label) && <span className="radio-button__label">{children || label}</span>}
     </label>
   );
 };

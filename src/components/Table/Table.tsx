@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FaSort, FaSortUp, FaSortDown, FaEdit, FaTrash } from 'react-icons/fa';
-import './Table.scss';
 
 export interface TableColumn {
   id: string;
@@ -14,7 +13,7 @@ export interface TableRow {
   name: string;
   avatar?: string;
   data: Record<string, any>;
-  status: 'success' | 'pending' | 'failed';
+  status: string;
 }
 
 export interface TableProps {
@@ -59,13 +58,15 @@ const Table: React.FC<TableProps> = ({
   };
 
   const getStatusBadge = (status: string) => {
-    const statusConfig = {
+    const statusConfig: Record<string, { label: string; className: string }> = {
       success: { label: 'Success', className: 'table__status--success' },
       pending: { label: 'Pending', className: 'table__status--pending' },
       failed: { label: 'Failed', className: 'table__status--failed' },
+      active: { label: 'Active', className: 'table__status--success' },
+      inactive: { label: 'Inactive', className: 'table__status--failed' },
     };
 
-    const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.pending;
+    const config = statusConfig[status] || { label: status, className: 'table__status--pending' };
 
     return (
       <span className={`table__status ${config.className}`}>

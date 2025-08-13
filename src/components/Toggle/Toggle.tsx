@@ -11,6 +11,7 @@ export interface ToggleProps {
   onChange?: (checked: boolean) => void;
   className?: string;
   children?: React.ReactNode;
+  label?: string;
   // Segmented control specific props
   segments?: Array<{
     id: string;
@@ -34,6 +35,7 @@ const Toggle: React.FC<ToggleProps> = ({
   onChange,
   className = '',
   children,
+  label,
   segments = [
     { id: 'bars', label: '☰' },
     { id: 'close', label: '✕' },
@@ -96,7 +98,7 @@ const Toggle: React.FC<ToggleProps> = ({
             <div className="toggle-switch__handle" />
           </div>
         </button>
-        {children && <span className="toggle__label">{children}</span>}
+        {(children || label) && <span className="toggle__label">{children || label}</span>}
       </div>
     );
   }
@@ -123,7 +125,7 @@ const Toggle: React.FC<ToggleProps> = ({
             </button>
           ))}
         </div>
-        {children && <span className="toggle__label">{children}</span>}
+        {(children || label) && <span className="toggle__label">{children || label}</span>}
       </div>
     );
   }
@@ -177,7 +179,7 @@ const Toggle: React.FC<ToggleProps> = ({
           </div>
         )}
         
-        {children && <span className="toggle__label">{children}</span>}
+        {(children || label) && <span className="toggle__label">{children || label}</span>}
       </div>
     );
   }

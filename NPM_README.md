@@ -63,9 +63,9 @@ This NPM package includes:
 
 ## 🔗 Links
 
-- **GitHub Repository**: [View Source](https://github.com/yourusername/component-library)
+- **GitHub Repository**: [View Source](https://github.com/p2eengineering/ks-ui-lib)
 - **LLM Documentation**: [LLM_GUIDE.md](./LLM_GUIDE.md)
-- **Issues**: [Report Bugs](https://github.com/yourusername/component-library/issues)
+- **Issues**: [Report Bugs](https://github.com/p2eengineering/ks-ui-lib/issues)
 
 ## 📄 License
 

@@ -4,18 +4,17 @@
   "private": false,
   "description": "A professional React component library with TypeScript and Source Sans 3 typography. For LLM developers: See LLM_GUIDE.md for comprehensive documentation and usage examples.",
   "keywords": ["react", "typescript", "component-library", "design-system", "ui-components", "llm-guide", "ai-development", "llm-documentation", "react-components", "typescript-components"],
-  "homepage": "https://github.com/yourusername/component-library#readme",
+  "homepage": "https://github.com/p2eengineering/ks-ui-lib#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/component-library.git"
+    "url": "https://github.com/p2eengineering/ks-ui-lib.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/component-library/issues"
+    "url": "https://github.com/p2eengineering/ks-ui-lib/issues"
   },
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
   "dependencies": {
-    "react": "^18.2.0",
     "react-icons": "^4.10.0"
   },
   "peerDependencies": {

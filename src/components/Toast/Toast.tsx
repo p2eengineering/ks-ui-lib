@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { FaCheck, FaExclamationTriangle, FaSpinner, FaTimes } from 'react-icons/fa';
-import './Toast.scss';
 
 export interface ToastProps {
   type?: 'success' | 'error' | 'processing';
@@ -10,6 +9,7 @@ export interface ToastProps {
   autoClose?: boolean;
   autoCloseDelay?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const Toast: React.FC<ToastProps> = ({
@@ -20,6 +20,7 @@ const Toast: React.FC<ToastProps> = ({
   autoClose = false,
   autoCloseDelay = 5000,
   className = '',
+  style,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -92,7 +93,7 @@ const Toast: React.FC<ToastProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={componentClasses}>
+    <div className={componentClasses} style={style}>
       <div className="toast__icon">
         {getIcon()}
       </div>

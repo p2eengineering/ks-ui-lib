@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Tabs.scss';
 
 export interface TabItem {
   id: string;
@@ -16,6 +15,7 @@ export interface TabsProps {
   variant?: 'rounded' | 'segmented';
   showIcons?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const Tabs: React.FC<TabsProps> = ({
@@ -26,6 +26,7 @@ const Tabs: React.FC<TabsProps> = ({
   variant = 'rounded',
   showIcons = false,
   className = '',
+  style,
 }) => {
   const [internalActiveTab, setInternalActiveTab] = useState(activeTab || items[0]?.id || '');
 
@@ -48,7 +49,7 @@ const Tabs: React.FC<TabsProps> = ({
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={componentClasses} role="tablist">
+    <div className={componentClasses} style={style} role="tablist">
       {items.map((item, index) => {
         const isActive = item.id === currentActiveTab;
         const isDisabled = item.disabled;
