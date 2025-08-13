@@ -223,11 +223,41 @@ $button-transition: all 0.2s ease-in-out;
 // BREAKPOINTS
 // =============================================================================
 
+// Device Breakpoints
+$breakpoint-mobile: 480px;      // Mobile devices (Android Small)
+$breakpoint-tabs: 768px;        // Tablet devices (iPad Pro 11", 12.9")
+$breakpoint-desktop: 1024px;    // Desktop devices (1280px, 1440px)
+
+// Legacy breakpoints (for backward compatibility)
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
 $breakpoint-2xl: 1400px;
+
+// =============================================================================
+// GRID SYSTEM
+// =============================================================================
+
+// Grid Columns
+$grid-columns-mobile: 4;        // Android Small - 4 columns
+$grid-columns-tabs: 8;          // iPad Pro 11" - 8 columns
+$grid-columns-desktop: 12;      // Desktop & iPad Pro 12.9" - 12 columns
+
+// Grid Gutters
+$grid-gutter-mobile: 20px;      // Mobile gutters
+$grid-gutter-tabs: 20px;        // Tablet gutters
+$grid-gutter-desktop: 20px;     // Desktop gutters
+
+// Grid Margins
+$grid-margin-mobile: 20px;      // Mobile side margins
+$grid-margin-tabs: 50px;        // Tablet side margins
+$grid-margin-desktop: 50px;     // Desktop side margins (1440px: 20px left, 50px right)
+
+// Container Max Widths
+$container-max-width-mobile: 480px;
+$container-max-width-tabs: 1024px;
+$container-max-width-desktop: 1440px;
 
 // =============================================================================
 // Z-INDEX SCALE
@@ -283,5 +313,85 @@ $z-index-tooltip: 1070;
     @media (min-width: $breakpoint-xl) { @content; }
   } @else if $breakpoint == 2xl {
     @media (min-width: $breakpoint-2xl) { @content; }
+  }
+}
+
+// Device-specific responsive mixins
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) { @content; }
+}
+
+@mixin tabs {
+  @media (min-width: #{$breakpoint-mobile + 1px}) and (max-width: #{$breakpoint-tabs}) { @content; }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-tabs + 1px}) { @content; }
+}
+
+// Grid system mixins
+@mixin grid-container {
+  width: 100%;
+  max-width: $container-max-width-mobile;
+  margin: 0 auto;
+  padding: 0 $grid-margin-mobile;
+  
+  @include tabs {
+    max-width: $container-max-width-tabs;
+    padding: 0 $grid-margin-tabs;
+  }
+  
+  @include desktop {
+    max-width: $container-max-width-desktop;
+    padding: 0 $grid-margin-desktop;
+  }
+}
+
+@mixin grid-column($columns: 1, $device: 'mobile') {
+  @if $device == 'mobile' {
+    $total-gutters: $grid-columns-mobile - 1;
+    $gutter-width: $total-gutters * $grid-gutter-mobile;
+    $column-gutters: ($columns - 1) * $grid-gutter-mobile;
+    width: calc((100% - #{$gutter-width}) / #{$grid-columns-mobile} * #{$columns} + #{$column-gutters});
+  } @else if $device == 'tabs' {
+    @include tabs {
+      $total-gutters: $grid-columns-tabs - 1;
+      $gutter-width: $total-gutters * $grid-gutter-tabs;
+      $column-gutters: ($columns - 1) * $grid-gutter-tabs;
+      width: calc((100% - #{$gutter-width}) / #{$grid-columns-tabs} * #{$columns} + #{$column-gutters});
+    }
+  } @else if $device == 'desktop' {
+    @include desktop {
+      $total-gutters: $grid-columns-desktop - 1;
+      $gutter-width: $total-gutters * $grid-gutter-desktop;
+      $column-gutters: ($columns - 1) * $grid-gutter-desktop;
+      width: calc((100% - #{$gutter-width}) / #{$grid-columns-desktop} * #{$columns} + #{$column-gutters});
+    }
+  }
+}
+
+@mixin grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -($grid-gutter-mobile / 2);
+  
+  @include tabs {
+    margin: 0 -($grid-gutter-tabs / 2);
+  }
+  
+  @include desktop {
+    margin: 0 -($grid-gutter-desktop / 2);
+  }
+}
+
+@mixin grid-col {
+  padding: 0 ($grid-gutter-mobile / 2);
+  
+  @include tabs {
+    padding: 0 ($grid-gutter-tabs / 2);
+  }
+  
+  @include desktop {
+    padding: 0 ($grid-gutter-desktop / 2);
   }
 }

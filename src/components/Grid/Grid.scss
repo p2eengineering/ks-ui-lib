@@ -1,0 +1,115 @@
+@import '../../design-tokens/design-tokens.scss';
+
+// Grid Container
+.grid-container {
+  @include grid-container;
+  margin-bottom: $spacing-lg; // 24px spacing between grid sections
+}
+
+// Grid Row with spacing
+.grid-row {
+  @include grid-row;
+  margin-bottom: $spacing-md; // 16px spacing between rows
+  
+  &:last-child {
+    margin-bottom: 0; // Remove margin from last row
+  }
+}
+
+// Grid Column Base
+.grid-col {
+  @include grid-col;
+  box-sizing: border-box;
+  margin-bottom: $spacing-sm; // 8px spacing between columns on mobile
+  
+  @include tabs {
+    margin-bottom: $spacing-sm; // 8px spacing between columns on tablet
+  }
+  
+  @include desktop {
+    margin-bottom: 0; // No margin on desktop since gutters handle spacing
+  }
+}
+
+// Mobile Column Classes (1-4 columns)
+@for $i from 1 through 4 {
+  .grid-col-mobile-#{$i} {
+    @include mobile {
+      @include grid-column($i, 'mobile');
+    }
+  }
+}
+
+// Tablet Column Classes (1-8 columns)
+@for $i from 1 through 8 {
+  .grid-col-tabs-#{$i} {
+    @include tabs {
+      @include grid-column($i, 'tabs');
+    }
+  }
+}
+
+// Desktop Column Classes (1-12 columns)
+@for $i from 1 through 12 {
+  .grid-col-desktop-#{$i} {
+    @include desktop {
+      @include grid-column($i, 'desktop');
+    }
+  }
+}
+
+// Utility Classes
+.grid-col-mobile-full {
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.grid-col-tabs-full {
+  @include tabs {
+    width: 100%;
+  }
+}
+
+.grid-col-desktop-full {
+  @include desktop {
+    width: 100%;
+  }
+}
+
+// Responsive visibility classes
+.hide-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.hide-tabs {
+  @include tabs {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @include desktop {
+    display: none !important;
+  }
+}
+
+.show-mobile {
+  @include mobile {
+    display: block !important;
+  }
+}
+
+.show-tabs {
+  @include tabs {
+    display: block !important;
+  }
+}
+
+.show-desktop {
+  @include desktop {
+    display: block !important;
+  }
+}

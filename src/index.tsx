@@ -82,6 +82,8 @@ export type { LayoutProps } from './components/Layout/Layout';
 // Table Component
 export { default as Table } from './components/Table/Table';
 export type { TableProps, TableColumn, TableRow } from './components/Table/Table';
+export { Grid, GridRow, GridCol } from './components/Grid/Grid';
+export type { GridProps, GridRowProps, GridColProps } from './components/Grid/Grid';
 
 // Note: Design tokens are available in SCSS format at src/design-tokens/design-tokens.scss
 // Import them in your SCSS files: @import '~@ks/component-library/src/design-tokens/design-tokens';

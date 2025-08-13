@@ -88,6 +88,23 @@ import '@ks/component-library/dist/styles.css';
 
 ## 🧩 Available Components
 
+The library includes:
+- **Header Component**: Professional header with wallet integration
+- **Sidebar Component**: Interactive navigation with state management
+- **Layout Component**: Complete application layout
+- **Table Component**: Data table with sorting, status badges, and actions
+- **Grid Component**: Responsive grid system with breakpoints
+- **Button Component**: Multi-variant button system
+- **Toggle Component**: Switch, segmented, and theme controls
+- **Dialog Component**: Modal dialogs and overlays
+- **Toast Component**: Notification system
+- **Chip Component**: Tag and status indicators
+- **Checkbox Component**: Form controls
+- **RadioButton Component**: Selection controls
+- **Dropdown Component**: Select menus
+- **Tabs Component**: Tabbed interfaces
+- **Tooltip Component**: Contextual help
+
 ### Header Component
 
 **Import:**
@@ -267,6 +284,235 @@ interface LayoutProps {
 >
   <DashboardContent />
 </Layout>
+```
+
+### Table Component
+
+**Import:**
+```tsx
+import { Table } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface TableColumn {
+  id: string;
+  label: string;
+  sortable?: boolean;
+  width?: string;
+}
+
+interface TableRow {
+  id: string;
+  name: string;
+  avatar?: string;
+  data: Record<string, any>;
+  status: 'success' | 'pending' | 'failed';
+}
+
+interface TableProps {
+  columns: TableColumn[];
+  rows: TableRow[];
+  onSort?: (columnId: string, direction: 'asc' | 'desc') => void;
+  onEdit?: (row: TableRow) => void;
+  onDelete?: (row: TableRow) => void;
+  className?: string;
+}
+```
+
+**Features:**
+- Sortable columns with visual indicators
+- Status badges with color coding (Success, Pending, Failed)
+- Action buttons for edit and delete operations
+- Avatar support with fallback initials
+- Alternate row colors for better readability
+- Responsive design with hover effects
+- Accessibility features with proper ARIA labels
+
+**Usage Examples:**
+
+```tsx
+// Basic table
+const columns = [
+  { id: 'name', label: 'Name', sortable: false },
+  { id: 'email', label: 'Email', sortable: true },
+  { id: 'role', label: 'Role', sortable: true },
+  { id: 'department', label: 'Department', sortable: true },
+  { id: 'status', label: 'Status', sortable: false },
+];
+
+const rows = [
+  {
+    id: '1',
+    name: 'John Doe',
+    data: {
+      email: 'john.doe@example.com',
+      role: 'Developer',
+      department: 'Engineering',
+    },
+    status: 'success',
+  },
+  {
+    id: '2',
+    name: 'Jane Smith',
+    data: {
+      email: 'jane.smith@example.com',
+      role: 'Designer',
+      department: 'Design',
+    },
+    status: 'pending',
+  },
+];
+
+<Table
+  columns={columns}
+  rows={rows}
+  onSort={(columnId, direction) => console.log('Sort:', columnId, direction)}
+  onEdit={(row) => console.log('Edit:', row)}
+  onDelete={(row) => console.log('Delete:', row)}
+/>
+```
+
+**With Avatars:**
+```tsx
+const rows = [
+  {
+    id: '1',
+    name: 'John Doe',
+    avatar: '/path/to/avatar.jpg',
+    data: { email: 'john@example.com', role: 'Developer' },
+    status: 'success',
+  },
+];
+```
+
+**With Custom Actions:**
+```tsx
+const handleEdit = (row) => {
+  console.log('Editing:', row.name);
+  // Open edit modal or navigate to edit page
+};
+
+const handleDelete = (row) => {
+  if (confirm(`Are you sure you want to delete ${row.name}?`)) {
+    console.log('Deleting:', row.name);
+    // Delete the row
+  }
+};
+
+<Table
+  columns={columns}
+  rows={rows}
+  onEdit={handleEdit}
+  onDelete={handleDelete}
+/>
+```
+
+### Grid Component
+
+**Import:**
+```tsx
+import { Grid, GridRow, GridCol } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface GridProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+interface GridRowProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+interface GridColProps {
+  children: React.ReactNode;
+  mobile?: number;  // 1-4 columns
+  tabs?: number;    // 1-8 columns
+  desktop?: number; // 1-12 columns
+  className?: string;
+}
+```
+
+**Features:**
+- Responsive breakpoints: Mobile (≤480px), Tablet (481px-768px), Desktop (≥769px)
+- Column systems: Mobile (4 columns), Tablet (8 columns), Desktop (12 columns)
+- Consistent spacing with 20px gutters and device-specific margins
+- Utility classes for responsive visibility and full-width columns
+- Mobile-first responsive design approach
+
+**Grid Specifications:**
+- **Mobile**: 4 columns, 20px gutters, 20px margins
+- **Tablet**: 8 columns, 20px gutters, 50px margins  
+- **Desktop**: 12 columns, 20px gutters, 50px margins
+
+**Usage Examples:**
+
+```tsx
+// Basic responsive grid
+<Grid>
+  <GridRow>
+    <GridCol mobile={4} tabs={4} desktop={6}>
+      <div>Left column content</div>
+    </GridCol>
+    <GridCol mobile={4} tabs={4} desktop={6}>
+      <div>Right column content</div>
+    </GridCol>
+  </GridRow>
+</Grid>
+
+// Complex layout with different column sizes
+<Grid>
+  <GridRow>
+    <GridCol mobile={4} tabs={6} desktop={8}>
+      <main>Main content area</main>
+    </GridCol>
+    <GridCol mobile={4} tabs={2} desktop={4}>
+      <aside>Sidebar content</aside>
+    </GridCol>
+  </GridRow>
+  <GridRow>
+    <GridCol mobile={2} tabs={2} desktop={3}>
+      <div>Card 1</div>
+    </GridCol>
+    <GridCol mobile={2} tabs={2} desktop={3}>
+      <div>Card 2</div>
+    </GridCol>
+    <GridCol mobile={4} tabs={4} desktop={6}>
+      <div>Wide Card</div>
+    </GridCol>
+  </GridRow>
+</Grid>
+
+// Dashboard layout
+<Grid>
+  <GridRow>
+    {Array.from({ length: 4 }, (_, i) => (
+      <GridCol key={i} mobile={4} tabs={4} desktop={3}>
+        <div>Metric Card {i + 1}</div>
+      </GridCol>
+    ))}
+  </GridRow>
+</Grid>
+```
+
+**Utility Classes:**
+```scss
+// Responsive visibility
+.hide-mobile    // Hide on mobile devices
+.hide-tabs      // Hide on tablet devices  
+.hide-desktop   // Hide on desktop devices
+
+.show-mobile    // Show only on mobile devices
+.show-tabs      // Show only on tablet devices
+.show-desktop   // Show only on desktop devices
+
+// Full width columns
+.grid-col-mobile-full   // Full width on mobile
+.grid-col-tabs-full     // Full width on tablet
+.grid-col-desktop-full  // Full width on desktop
 ```
 
 ### Button Component
@@ -1238,6 +1484,97 @@ const AppWithHeader = () => {
         <p>This is the main content area.</p>
       </main>
     </div>
+  );
+};
+```
+
+### Complete Application with Table
+
+```tsx
+import React, { useState } from 'react';
+import { Layout, Table } from '@ks/component-library';
+
+const DashboardWithTable = () => {
+  const [currentPage, setCurrentPage] = useState('dashboard');
+
+  const columns = [
+    { id: 'name', label: 'Name', sortable: false },
+    { id: 'email', label: 'Email', sortable: true },
+    { id: 'role', label: 'Role', sortable: true },
+    { id: 'department', label: 'Department', sortable: true },
+    { id: 'status', label: 'Status', sortable: false },
+  ];
+
+  const rows = [
+    {
+      id: '1',
+      name: 'John Doe',
+      avatar: '/path/to/john.jpg',
+      data: {
+        email: 'john.doe@example.com',
+        role: 'Developer',
+        department: 'Engineering',
+      },
+      status: 'success',
+    },
+    {
+      id: '2',
+      name: 'Jane Smith',
+      data: {
+        email: 'jane.smith@example.com',
+        role: 'Designer',
+        department: 'Design',
+      },
+      status: 'pending',
+    },
+    {
+      id: '3',
+      name: 'Bob Johnson',
+      data: {
+        email: 'bob.johnson@example.com',
+        role: 'Manager',
+        department: 'Product',
+      },
+      status: 'failed',
+    },
+  ];
+
+  const handleSort = (columnId, direction) => {
+    console.log('Sorting:', columnId, direction);
+    // Implement sorting logic
+  };
+
+  const handleEdit = (row) => {
+    console.log('Editing:', row.name);
+    // Open edit modal
+  };
+
+  const handleDelete = (row) => {
+    if (confirm(`Are you sure you want to delete ${row.name}?`)) {
+      console.log('Deleting:', row.name);
+      // Delete the row
+    }
+  };
+
+  return (
+    <Layout
+      walletAddress="0x2E22...CD71"
+      walletBalance="$2,500.00"
+      profileImage="/path/to/profile.jpg"
+    >
+      <div>
+        <h1>User Management</h1>
+        <p>Manage your team members and their roles.</p>
+        
+        <Table
+          columns={columns}
+          rows={rows}
+          onSort={handleSort}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
+    </Layout>
   );
 };
 ```
