@@ -2,6 +2,8 @@
 
 A professional React component library built with TypeScript and Source Sans 3 typography, following the KS design system. This library provides a comprehensive set of reusable UI components designed for modern web applications.
 
+> **🤖 LLM DEVELOPERS**: For comprehensive guidance on using this component library, including detailed API documentation, examples, and best practices, please refer to the **[LLM_GUIDE.md](./LLM_GUIDE.md)** file. This guide contains complete component specifications, usage patterns, and implementation examples specifically designed for AI-assisted development.
+
 ## 🎨 Features
 
 - **Comprehensive Component Set**: Starting with Button component, expanding to include more UI elements

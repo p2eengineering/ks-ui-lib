@@ -1,5 +1,7 @@
 # KS Component Library - LLM Guide
 
+> **🤖 AI/LLM DEVELOPERS**: This is the primary documentation file for the KS Component Library. This guide contains comprehensive component specifications, API documentation, usage examples, and best practices specifically designed for AI-assisted development. Use this guide when generating React TypeScript code that incorporates our design system and components.
+
 This document provides comprehensive guidance for Large Language Models (LLMs) on how to use the KS Component Library effectively. Use this guide when generating React TypeScript code that incorporates our design system and components.
 
 ## 🎯 Library Overview
@@ -85,6 +87,187 @@ import '@ks/component-library/dist/styles.css';
 - **Full**: 9999px (Pills, avatars)
 
 ## 🧩 Available Components
+
+### Header Component
+
+**Import:**
+```tsx
+import { Header } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface HeaderProps {
+  onMenuToggle?: () => void;
+  walletAddress?: string;
+  walletBalance?: string;
+  profileImage?: string;
+  className?: string;
+}
+```
+
+**Features:**
+- KALP STUDIO branding with purple hamburger menu
+- Notification bell and help icons with light grey circular backgrounds
+- Wallet display with transparent background, box shadow, and proper typography
+- Apps dropdown with light grey background and grid icon
+- Profile picture with fallback avatar
+- Vertical separator between wallet and apps sections
+
+**Usage Examples:**
+
+```tsx
+// Basic header
+<Header onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+
+// With wallet information
+<Header
+  walletAddress="0x2E22...CD71"
+  walletBalance="$2,500.00"
+  onMenuToggle={handleMenuToggle}
+/>
+
+// With profile image
+<Header
+  profileImage="/path/to/profile.jpg"
+  walletAddress="0x1A2B...3C4D"
+  walletBalance="$5,250.00"
+  onMenuToggle={handleMenuToggle}
+/>
+```
+
+### Sidebar Component
+
+**Import:**
+```tsx
+import { Sidebar } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface SidebarItem {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+  href?: string;
+  onClick?: () => void;
+  isActive?: boolean;
+}
+
+interface SidebarProps {
+  items?: SidebarItem[];
+  isOpen?: boolean;
+  defaultActiveId?: string;
+  onItemClick?: (item: SidebarItem) => void;
+  onActiveChange?: (activeId: string) => void;
+  className?: string;
+}
+```
+
+**Features:**
+- Interactive navigation with automatic state management
+- Purple background with white text for active items
+- Responsive design with smooth animations
+- Support for custom menu items and icons
+- URL navigation and custom click handlers
+- Accessibility features with proper ARIA attributes
+
+**Default Menu Items:**
+- Dashboard
+- Smart Contract
+- API Gateway
+- Transaction Monitoring
+- Subscription
+- API Key Generation
+- Settings
+
+**Usage Examples:**
+
+```tsx
+// Basic sidebar
+<Sidebar defaultActiveId="dashboard" />
+
+// Interactive sidebar with state management
+const [activeId, setActiveId] = useState('dashboard');
+
+<Sidebar
+  defaultActiveId={activeId}
+  onActiveChange={setActiveId}
+  onItemClick={(item) => console.log('Clicked:', item.label)}
+/>
+
+// With custom items
+const customItems = [
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    icon: <FaChartBar />,
+    href: '/analytics',
+  },
+  {
+    id: 'users',
+    label: 'User Management',
+    icon: <FaUsers />,
+    onClick: () => openUserModal(),
+  },
+];
+
+<Sidebar items={customItems} defaultActiveId="analytics" />
+```
+
+### Layout Component
+
+**Import:**
+```tsx
+import { Layout } from '@ks/component-library';
+```
+
+**Props Interface:**
+```tsx
+interface LayoutProps {
+  children: React.ReactNode;
+  sidebarItems?: any[];
+  walletAddress?: string;
+  walletBalance?: string;
+  profileImage?: string;
+  className?: string;
+}
+```
+
+**Features:**
+- Complete application layout combining Header and Sidebar
+- Automatic sidebar toggle functionality
+- Responsive design with proper spacing
+- Main content area with padding and overflow handling
+- Integration with wallet information and profile
+
+**Usage Examples:**
+
+```tsx
+// Basic layout
+<Layout>
+  <h1>Your Content Here</h1>
+  <p>This will appear in the main content area.</p>
+</Layout>
+
+// With wallet information
+<Layout
+  walletAddress="0x2E22...CD71"
+  walletBalance="$2,500.00"
+>
+  <div>Your application content</div>
+</Layout>
+
+// Full application example
+<Layout
+  sidebarItems={customSidebarItems}
+  walletAddress="0x1A2B...3C4D"
+  walletBalance="$5,250.00"
+  profileImage="/path/to/profile.jpg"
+>
+  <DashboardContent />
+</Layout>
+```
 
 ### Button Component
 
@@ -897,9 +1080,169 @@ export const AllSizes: Story = {
 3. **Use CSS classes for styling**
 4. **Optimize bundle size by importing specific components**
 
-## 📋 Common Patterns
+## 🏗️ Complete Application Examples
 
-### Form Patterns
+### Full Application with Header, Sidebar, and Layout
+
+```tsx
+import React, { useState } from 'react';
+import { Layout, Header, Sidebar } from '@ks/component-library';
+import { FaTh, FaCog, FaChartBar } from 'react-icons/fa';
+
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const handleSidebarItemClick = (item: any) => {
+    setCurrentPage(item.id);
+  };
+
+  const getPageContent = (pageId: string) => {
+    switch (pageId) {
+      case 'dashboard':
+        return <DashboardPage />;
+      case 'settings':
+        return <SettingsPage />;
+      case 'analytics':
+        return <AnalyticsPage />;
+      default:
+        return <DashboardPage />;
+    }
+  };
+
+  return (
+    <Layout
+      walletAddress="0x2E22...CD71"
+      walletBalance="$2,500.00"
+      profileImage="/path/to/profile.jpg"
+    >
+      {getPageContent(currentPage)}
+    </Layout>
+  );
+};
+
+const DashboardPage = () => (
+  <div>
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard!</p>
+  </div>
+);
+
+const SettingsPage = () => (
+  <div>
+    <h1>Settings</h1>
+    <p>Configure your application settings.</p>
+  </div>
+);
+
+const AnalyticsPage = () => (
+  <div>
+    <h1>Analytics</h1>
+    <p>View your analytics data.</p>
+  </div>
+);
+```
+
+### Interactive Sidebar with State Management
+
+```tsx
+import React, { useState } from 'react';
+import { Sidebar } from '@ks/component-library';
+import { FaTh, FaCog, FaChartBar, FaUsers } from 'react-icons/fa';
+
+const AppWithInteractiveSidebar = () => {
+  const [activeId, setActiveId] = useState('dashboard');
+  const [clickCount, setClickCount] = useState(0);
+
+  const customItems = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: <FaTh />,
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: <FaChartBar />,
+    },
+    {
+      id: 'users',
+      label: 'User Management',
+      icon: <FaUsers />,
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: <FaCog />,
+    },
+  ];
+
+  const handleItemClick = (item: any) => {
+    setClickCount(prev => prev + 1);
+    console.log('Clicked:', item.label);
+  };
+
+  const handleActiveChange = (newActiveId: string) => {
+    setActiveId(newActiveId);
+    console.log('Active changed to:', newActiveId);
+  };
+
+  return (
+    <div style={{ display: 'flex' }}>
+      <Sidebar
+        items={customItems}
+        defaultActiveId={activeId}
+        onItemClick={handleItemClick}
+        onActiveChange={handleActiveChange}
+      />
+      <div style={{ flex: 1, padding: '20px' }}>
+        <h2>Current Page: {activeId}</h2>
+        <p>Total Clicks: {clickCount}</p>
+        <p>This content changes based on the selected sidebar item.</p>
+      </div>
+    </div>
+  );
+};
+```
+
+### Header with Wallet Integration
+
+```tsx
+import React, { useState } from 'react';
+import { Header } from '@ks/component-library';
+
+const AppWithHeader = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [walletAddress, setWalletAddress] = useState('0x2E22...CD71');
+  const [walletBalance, setWalletBalance] = useState('$2,500.00');
+
+  const handleMenuToggle = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleWalletClick = () => {
+    // Handle wallet connection or wallet modal
+    console.log('Wallet clicked');
+  };
+
+  return (
+    <div>
+      <Header
+        onMenuToggle={handleMenuToggle}
+        walletAddress={walletAddress}
+        walletBalance={walletBalance}
+        profileImage="/path/to/profile.jpg"
+      />
+      <main style={{ padding: '20px' }}>
+        <h1>Your Application Content</h1>
+        <p>This is the main content area.</p>
+      </main>
+    </div>
+  );
+};
+```
+
+## 📋 Common Patterns
 
 ```tsx
 import { Button } from '@ks/component-library';

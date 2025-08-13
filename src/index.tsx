@@ -2,6 +2,12 @@
 // KS COMPONENT LIBRARY
 // =============================================================================
 // A professional React component library built with TypeScript and Source Sans 3 typography
+//
+// 🤖 LLM DEVELOPERS: For comprehensive documentation, API specifications, usage examples,
+// and best practices, please refer to LLM_GUIDE.md in the repository root.
+// This file contains only the component exports - the LLM_GUIDE.md contains detailed
+// component interfaces, props documentation, and implementation examples.
+// =============================================================================
 
 // Button Component
 export { default as Button } from './components/Button/Button';
@@ -72,6 +78,10 @@ export type { SidebarProps, SidebarItem } from './components/Sidebar/Sidebar';
 // Layout Component
 export { default as Layout } from './components/Layout/Layout';
 export type { LayoutProps } from './components/Layout/Layout';
+
+// Table Component
+export { default as Table } from './components/Table/Table';
+export type { TableProps, TableColumn, TableRow } from './components/Table/Table';
 
 // Note: Design tokens are available in SCSS format at src/design-tokens/design-tokens.scss
 // Import them in your SCSS files: @import '~@ks/component-library/src/design-tokens/design-tokens';

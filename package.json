@@ -2,6 +2,8 @@
   "name": "@ks/component-library",
   "version": "1.0.0",
   "private": false,
+  "description": "A professional React component library with TypeScript and Source Sans 3 typography. For LLM developers: See LLM_GUIDE.md for comprehensive documentation and usage examples.",
+  "keywords": ["react", "typescript", "component-library", "design-system", "ui-components", "llm-guide"],
   "dependencies": {
     "react": "^18.2.0",
     "react-icons": "^4.10.0"
