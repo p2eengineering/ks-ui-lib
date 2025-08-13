@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "private": false,
   "description": "A professional React component library with TypeScript and Source Sans 3 typography. For LLM developers: See LLM_GUIDE.md for comprehensive documentation and usage examples.",
-  "keywords": ["react", "typescript", "component-library", "design-system", "ui-components", "llm-guide"],
+  "keywords": ["react", "typescript", "component-library", "design-system", "ui-components", "llm-guide", "ai-development", "llm-documentation", "react-components", "typescript-components"],
+  "homepage": "https://github.com/yourusername/component-library#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/component-library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/component-library/issues"
+  },
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
   "dependencies": {
     "react": "^18.2.0",
     "react-icons": "^4.10.0"
@@ -18,7 +28,11 @@
   "files": [
     "dist",
     "src/components",
-    "src/design-tokens"
+    "src/design-tokens",
+    "LLM_GUIDE.md",
+    "AI_DEVELOPMENT_GUIDE.md",
+    "README.md",
+    "NPM_README.md"
   ],
   "scripts": {
     "build": "rollup -c",
