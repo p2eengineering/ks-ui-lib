@@ -93,17 +93,17 @@ The library includes:
 - **Sidebar Component**: Interactive navigation with state management
 - **Layout Component**: Complete application layout
 - **Table Component**: Data table with sorting, status badges, and actions
-- **Grid Component**: Responsive grid system with breakpoints
+- **Grid Component**: Responsive grid system with breakpoints and spacing
 - **Button Component**: Multi-variant button system
 - **Toggle Component**: Switch, segmented, and theme controls
 - **Dialog Component**: Modal dialogs and overlays
 - **Toast Component**: Notification system
-- **Chip Component**: Tag and status indicators
-- **Checkbox Component**: Form controls
-- **RadioButton Component**: Selection controls
-- **Dropdown Component**: Select menus
+- **Checkbox Component**: Form controls with various states
+- **Chip Component**: Tag and label components
+- **RadioButton Component**: Radio button controls
+- **Dropdown Component**: Select and menu components
+- **Tooltip Component**: Hover information displays
 - **Tabs Component**: Tabbed interfaces
-- **Tooltip Component**: Contextual help
 
 ### Header Component
 
@@ -437,16 +437,23 @@ interface GridColProps {
 ```
 
 **Features:**
-- Responsive breakpoints: Mobile (≤480px), Tablet (481px-768px), Desktop (≥769px)
-- Column systems: Mobile (4 columns), Tablet (8 columns), Desktop (12 columns)
-- Consistent spacing with 20px gutters and device-specific margins
-- Utility classes for responsive visibility and full-width columns
-- Mobile-first responsive design approach
+- **Responsive breakpoints**: Mobile (≤480px), Tablet (481px-768px), Desktop (≥769px)
+- **Column systems**: Mobile (4 columns), Tablet (8 columns), Desktop (12 columns)
+- **Consistent spacing**: 20px gutters, device-specific margins, 16px row spacing
+- **Utility classes**: Responsive visibility and full-width columns
+- **Mobile-first design**: Progressive enhancement approach
+- **Clean visual design**: Solid primary color boxes with proper spacing
 
 **Grid Specifications:**
-- **Mobile**: 4 columns, 20px gutters, 20px margins
-- **Tablet**: 8 columns, 20px gutters, 50px margins  
-- **Desktop**: 12 columns, 20px gutters, 50px margins
+- **Mobile**: 4 columns, 20px gutters, 20px margins, 8px column spacing
+- **Tablet**: 8 columns, 20px gutters, 50px margins, 8px column spacing
+- **Desktop**: 12 columns, 20px gutters, 50px margins, 0px column spacing (gutters handle spacing)
+
+**Spacing System:**
+- **Row spacing**: 16px between grid rows
+- **Section spacing**: 24px between grid sections
+- **Column spacing**: 8px on mobile/tablet, 0px on desktop
+- **Top margin**: 16px for demo cards in stories
 
 **Usage Examples:**
 
@@ -496,7 +503,41 @@ interface GridColProps {
     ))}
   </GridRow>
 </Grid>
+
+// Layout matching the provided image
+<Grid>
+  <GridRow>
+    <GridCol mobile={4} tabs={6} desktop={8}>
+      <div>Main Content Area</div>
+    </GridCol>
+    <GridCol mobile={4} tabs={2} desktop={4}>
+      <div>Sidebar</div>
+    </GridCol>
+  </GridRow>
+  <GridRow>
+    <GridCol mobile={2} tabs={2} desktop={3}>
+      <div>Card 1</div>
+    </GridCol>
+    <GridCol mobile={2} tabs={2} desktop={3}>
+      <div>Card 2</div>
+    </GridCol>
+  </GridRow>
+  <GridRow>
+    <GridCol mobile={4} tabs={4} desktop={6}>
+      <div>Wide Card</div>
+    </GridCol>
+  </GridRow>
+</Grid>
 ```
+
+**Available Stories:**
+- **BasicGrid**: Simple 2-column responsive layout
+- **ResponsiveColumns**: 3-column layout with different responsive behaviors
+- **TwelveColumnGrid**: Full 12-column grid demonstration
+- **MixedLayout**: Complex layout with spanning cards
+- **ImageLayout**: Clean layout matching the provided image design
+- **BreakpointDemo**: Grid specifications and breakpoint information
+- **CompleteTest**: Comprehensive grid testing examples
 
 **Utility Classes:**
 ```scss
@@ -514,6 +555,13 @@ interface GridColProps {
 .grid-col-tabs-full     // Full width on tablet
 .grid-col-desktop-full  // Full width on desktop
 ```
+
+**Best Practices:**
+- Use semantic column sizes that match your content needs
+- Leverage responsive breakpoints for optimal mobile experience
+- Maintain consistent spacing using the built-in spacing system
+- Test layouts across all breakpoints to ensure proper behavior
+- Use utility classes for responsive visibility when needed
 
 ### Button Component
 
