@@ -210,7 +210,10 @@ export const RightPosition: Story = {
 // Interactive examples
 export const InteractiveExample: Story = {
   render: () => {
-    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [tooltipStates, setTooltipStates] = useState({
+      first: false,
+      second: false,
+    });
 
     return (
       <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
@@ -219,8 +222,10 @@ export const InteractiveExample: Story = {
           content="This is a simple tooltip"
           side="top"
           showArrow={false}
-          open={tooltipOpen}
-          onOpenChange={setTooltipOpen}
+          open={tooltipStates.first}
+          onOpenChange={(open) =>
+            setTooltipStates((prev) => ({ ...prev, first: open }))
+          }
         >
           <button
             style={{
@@ -240,8 +245,10 @@ export const InteractiveExample: Story = {
           content="This tooltip has an arrow and different styling"
           side="bottom"
           showArrow={true}
-          open={false}
-          onOpenChange={() => {}}
+          open={tooltipStates.second}
+          onOpenChange={(open) =>
+            setTooltipStates((prev) => ({ ...prev, second: open }))
+          }
         >
           <button
             style={{
@@ -287,40 +294,57 @@ export const LongContent: Story = {
 
 // Different sizes and styles
 export const DifferentSizes: Story = {
-  render: () => (
-    <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-      <Tooltip
-        type="type1"
-        content="Small icon tooltip"
-        side="top"
-        showArrow={false}
-        open={false}
-        onOpenChange={() => {}}
-      >
-        <FaInfoCircle style={{ fontSize: "16px", color: "#666" }} />
-      </Tooltip>
+  render: () => {
+    const [tooltipStates, setTooltipStates] = useState({
+      small: false,
+      medium: false,
+      large: false,
+    });
 
-      <Tooltip
-        type="type2"
-        content="Medium icon tooltip"
-        side="top"
-        showArrow={true}
-        open={false}
-        onOpenChange={() => {}}
-      >
-        <FaQuestionCircle style={{ fontSize: "24px", color: "#F59E0B" }} />
-      </Tooltip>
+    const handleTooltipChange = (
+      size: "small" | "medium" | "large",
+      open: boolean
+    ) => {
+      setTooltipStates((prev) => ({ ...prev, [size]: open }));
+    };
 
-      <Tooltip
-        type="type3"
-        content="Large icon tooltip"
-        side="top"
-        showArrow={true}
-        open={false}
-        onOpenChange={() => {}}
-      >
-        <FaExclamationTriangle style={{ fontSize: "32px", color: "#1a1a1a" }} />
-      </Tooltip>
-    </div>
-  ),
+    return (
+      <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <Tooltip
+          type="type1"
+          content="Small icon tooltip"
+          side="top"
+          showArrow={false}
+          open={tooltipStates.small}
+          onOpenChange={(open) => handleTooltipChange("small", open)}
+        >
+          <FaInfoCircle style={{ fontSize: "16px", color: "#666" }} />
+        </Tooltip>
+
+        <Tooltip
+          type="type2"
+          content="Medium icon tooltip"
+          side="top"
+          showArrow={true}
+          open={tooltipStates.medium}
+          onOpenChange={(open) => handleTooltipChange("medium", open)}
+        >
+          <FaQuestionCircle style={{ fontSize: "24px", color: "#F59E0B" }} />
+        </Tooltip>
+
+        <Tooltip
+          type="type3"
+          content="Large icon tooltip"
+          side="top"
+          showArrow={true}
+          open={tooltipStates.large}
+          onOpenChange={(open) => handleTooltipChange("large", open)}
+        >
+          <FaExclamationTriangle
+            style={{ fontSize: "32px", color: "#1a1a1a" }}
+          />
+        </Tooltip>
+      </div>
+    );
+  },
 };

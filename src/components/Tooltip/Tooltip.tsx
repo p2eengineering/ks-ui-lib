@@ -1,11 +1,11 @@
-import React from 'react';
-import './Tooltip.scss';
+import React from "react";
+import "./Tooltip.scss";
 
 export interface TooltipProps {
-  type?: 'type1' | 'type2' | 'type3';
+  type?: "type1" | "type2" | "type3";
   content: string;
   children: React.ReactNode;
-  side?: 'top' | 'bottom' | 'left' | 'right';
+  side?: "top" | "bottom" | "left" | "right";
   sideOffset?: number;
   showArrow?: boolean;
   open?: boolean;
@@ -16,16 +16,16 @@ export interface TooltipProps {
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
-  type = 'type1',
+  type = "type1",
   content,
   children,
-  side = 'bottom',
+  side = "bottom",
   sideOffset = 5,
   showArrow = false,
   open = false,
   onOpenChange,
   delayDuration = 700,
-  className = '',
+  className = "",
   style,
 }) => {
   const getPositionClass = () => {
@@ -33,16 +33,21 @@ const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const componentClasses = [
-    'tooltip',
+    "tooltip",
     `tooltip--${type}`,
     getPositionClass(),
-    className
-  ].filter(Boolean).join(' ');
+    open ? "tooltip--visible" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const arrowClasses = [
-    'tooltip__arrow',
-    showArrow ? `tooltip__arrow--${side}` : ''
-  ].filter(Boolean).join(' ');
+    "tooltip__arrow",
+    showArrow ? `tooltip__arrow--${side}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className="tooltip-container" style={style}>
@@ -54,19 +59,19 @@ const Tooltip: React.FC<TooltipProps> = ({
       >
         {children}
       </div>
-      
+
       {open && (
         <div
           className={componentClasses}
           role="tooltip"
           aria-hidden={!open}
-          style={{
-            '--side-offset': `${sideOffset}px`
-          } as React.CSSProperties}
+          style={
+            {
+              "--side-offset": `${sideOffset}px`,
+            } as React.CSSProperties
+          }
         >
-          <div className="tooltip__content">
-            {content}
-          </div>
+          <div className="tooltip__content">{content}</div>
           {showArrow && <div className={arrowClasses} />}
         </div>
       )}
