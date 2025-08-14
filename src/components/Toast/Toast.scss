@@ -1,5 +1,59 @@
 @import "../../design-tokens/design-tokens";
 
+// Toast Viewport - Container for all toasts
+.toast-viewport {
+  position: fixed;
+  z-index: $z-index-tooltip;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  pointer-events: none;
+  
+  // Default position (top-right)
+  top: 0;
+  right: 0;
+  
+  // Position variants
+  &--top-left {
+    top: 0;
+    left: 0;
+  }
+  
+  &--top-center {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  &--top-right {
+    top: 0;
+    right: 0;
+  }
+  
+  &--bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+  
+  &--bottom-center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  &--bottom-right {
+    bottom: 0;
+    right: 0;
+  }
+  
+  &--center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .toast {
   display: flex;
   align-items: flex-start;
@@ -13,6 +67,8 @@
   transition: all 0.3s ease-in-out;
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   &__icon {
     display: flex;
