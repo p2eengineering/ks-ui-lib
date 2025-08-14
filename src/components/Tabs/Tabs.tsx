@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import './Tabs.scss';
 
 export interface TabItem {
   id: string;
@@ -9,8 +10,9 @@ export interface TabItem {
 
 export interface TabsProps {
   items: TabItem[];
-  activeTab?: string;
-  onTabChange?: (tabId: string) => void;
+  value?: string;
+  onValueChange?: (value: string) => void;
+  defaultValue?: string;
   size?: 'small' | 'medium' | 'large';
   variant?: 'rounded' | 'segmented';
   showIcons?: boolean;
@@ -20,25 +22,16 @@ export interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({
   items,
-  activeTab,
-  onTabChange,
+  value,
+  onValueChange,
+  defaultValue,
   size = 'medium',
   variant = 'rounded',
   showIcons = false,
   className = '',
   style,
 }) => {
-  const [internalActiveTab, setInternalActiveTab] = useState(activeTab || items[0]?.id || '');
-
-  const currentActiveTab = activeTab || internalActiveTab;
-
-  const handleTabClick = (tabId: string) => {
-    if (onTabChange) {
-      onTabChange(tabId);
-    } else {
-      setInternalActiveTab(tabId);
-    }
-  };
+  const currentValue = value || defaultValue || items[0]?.id;
 
   const componentClasses = [
     'tabs',
@@ -51,7 +44,7 @@ const Tabs: React.FC<TabsProps> = ({
   return (
     <div className={componentClasses} style={style} role="tablist">
       {items.map((item, index) => {
-        const isActive = item.id === currentActiveTab;
+        const isActive = item.id === currentValue;
         const isDisabled = item.disabled;
 
         const tabClasses = [
@@ -67,7 +60,7 @@ const Tabs: React.FC<TabsProps> = ({
             key={item.id}
             type="button"
             className={tabClasses}
-            onClick={() => !isDisabled && handleTabClick(item.id)}
+            onClick={() => !isDisabled && onValueChange?.(item.id)}
             disabled={isDisabled}
             role="tab"
             aria-selected={isActive}

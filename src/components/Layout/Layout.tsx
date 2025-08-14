@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Header from '../Header/Header';
-import Sidebar from '../Sidebar/Sidebar';
-import './Layout.scss';
+import React from "react";
+import Header from "../Header/Header";
+import Sidebar from "../Sidebar/Sidebar";
+import "./Layout.scss";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -10,6 +10,13 @@ export interface LayoutProps {
   walletBalance?: string;
   profileImage?: string;
   className?: string;
+  // Controlled sidebar state
+  isSidebarOpen?: boolean;
+  onSidebarToggle?: () => void;
+  onSidebarItemClick?: (item: any) => void;
+  // Controlled sidebar active state
+  activeSidebarId?: string;
+  onActiveSidebarIdChange?: (activeId: string) => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -18,23 +25,28 @@ const Layout: React.FC<LayoutProps> = ({
   walletAddress,
   walletBalance,
   profileImage,
-  className = '',
+  className = "",
+  // Controlled sidebar state
+  isSidebarOpen = true,
+  onSidebarToggle,
+  onSidebarItemClick,
+  // Controlled sidebar active state
+  activeSidebarId,
+  onActiveSidebarIdChange,
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const handleMenuToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    onSidebarToggle?.();
   };
 
   const handleSidebarItemClick = (item: any) => {
-    console.log('Sidebar item clicked:', item);
-    // Handle navigation or other actions here
+    onSidebarItemClick?.(item);
   };
 
-  const componentClasses = [
-    'layout',
-    className
-  ].filter(Boolean).join(' ');
+  const handleActiveSidebarIdChange = (activeId: string) => {
+    onActiveSidebarIdChange?.(activeId);
+  };
+
+  const componentClasses = ["layout", className].filter(Boolean).join(" ");
 
   return (
     <div className={componentClasses}>
@@ -44,15 +56,21 @@ const Layout: React.FC<LayoutProps> = ({
         walletBalance={walletBalance}
         profileImage={profileImage}
       />
-      
+
       <div className="layout__content">
         <Sidebar
           items={sidebarItems}
           isOpen={isSidebarOpen}
           onItemClick={handleSidebarItemClick}
+          activeId={activeSidebarId}
+          onActiveIdChange={handleActiveSidebarIdChange}
         />
-        
-        <main className={`layout__main ${isSidebarOpen ? 'layout__main--with-sidebar' : ''}`}>
+
+        <main
+          className={`layout__main ${
+            isSidebarOpen ? "layout__main--with-sidebar" : ""
+          }`}
+        >
           {children}
         </main>
       </div>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { FaSort, FaSortUp, FaSortDown, FaEdit, FaTrash } from 'react-icons/fa';
+import React from "react";
+import { FaSort, FaSortUp, FaSortDown, FaEdit, FaTrash } from "react-icons/fa";
+import "./Table.scss";
 
 export interface TableColumn {
   id: string;
@@ -19,10 +20,14 @@ export interface TableRow {
 export interface TableProps {
   columns: TableColumn[];
   rows: TableRow[];
-  onSort?: (columnId: string, direction: 'asc' | 'desc') => void;
+  onSort?: (columnId: string, direction: "asc" | "desc") => void;
   onEdit?: (row: TableRow) => void;
   onDelete?: (row: TableRow) => void;
   className?: string;
+  // Controlled sort state
+  sortColumn?: string | null;
+  sortDirection?: "asc" | "desc";
+  onSortChange?: (columnId: string, direction: "asc" | "desc") => void;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -31,22 +36,22 @@ const Table: React.FC<TableProps> = ({
   onSort,
   onEdit,
   onDelete,
-  className = '',
+  className = "",
+  // Controlled sort state
+  sortColumn = null,
+  sortDirection = "asc",
+  onSortChange,
 }) => {
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-
   const handleSort = (columnId: string) => {
-    const column = columns.find(col => col.id === columnId);
+    const column = columns.find((col) => col.id === columnId);
     if (!column?.sortable) return;
 
-    let newDirection: 'asc' | 'desc' = 'asc';
+    let newDirection: "asc" | "desc" = "asc";
     if (sortColumn === columnId) {
-      newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      newDirection = sortDirection === "asc" ? "desc" : "asc";
     }
 
-    setSortColumn(columnId);
-    setSortDirection(newDirection);
+    onSortChange?.(columnId, newDirection);
     onSort?.(columnId, newDirection);
   };
 
@@ -54,19 +59,22 @@ const Table: React.FC<TableProps> = ({
     if (sortColumn !== columnId) {
       return <FaSort />;
     }
-    return sortDirection === 'asc' ? <FaSortUp /> : <FaSortDown />;
+    return sortDirection === "asc" ? <FaSortUp /> : <FaSortDown />;
   };
 
   const getStatusBadge = (status: string) => {
     const statusConfig: Record<string, { label: string; className: string }> = {
-      success: { label: 'Success', className: 'table__status--success' },
-      pending: { label: 'Pending', className: 'table__status--pending' },
-      failed: { label: 'Failed', className: 'table__status--failed' },
-      active: { label: 'Active', className: 'table__status--success' },
-      inactive: { label: 'Inactive', className: 'table__status--failed' },
+      success: { label: "Success", className: "table__status--success" },
+      pending: { label: "Pending", className: "table__status--pending" },
+      failed: { label: "Failed", className: "table__status--failed" },
+      active: { label: "Active", className: "table__status--success" },
+      inactive: { label: "Inactive", className: "table__status--failed" },
     };
 
-    const config = statusConfig[status] || { label: status, className: 'table__status--pending' };
+    const config = statusConfig[status] || {
+      label: status,
+      className: "table__status--pending",
+    };
 
     return (
       <span className={`table__status ${config.className}`}>
@@ -77,17 +85,14 @@ const Table: React.FC<TableProps> = ({
 
   const getInitials = (name: string) => {
     return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   };
 
-  const componentClasses = [
-    'table',
-    className
-  ].filter(Boolean).join(' ');
+  const componentClasses = ["table", className].filter(Boolean).join(" ");
 
   return (
     <div className={componentClasses}>
@@ -97,7 +102,9 @@ const Table: React.FC<TableProps> = ({
             {columns.map((column) => (
               <th
                 key={column.id}
-                className={`table__header-cell ${column.sortable ? 'table__header-cell--sortable' : ''}`}
+                className={`table__header-cell ${
+                  column.sortable ? "table__header-cell--sortable" : ""
+                }`}
                 style={{ width: column.width }}
                 onClick={() => column.sortable && handleSort(column.id)}
               >
@@ -135,7 +142,7 @@ const Table: React.FC<TableProps> = ({
               </td>
               {columns.slice(1, -1).map((column) => (
                 <td key={column.id} className="table__cell">
-                  {row.data[column.id] || 'TD Value'}
+                  {row.data[column.id] || "TD Value"}
                 </td>
               ))}
               <td className="table__cell table__cell--status">

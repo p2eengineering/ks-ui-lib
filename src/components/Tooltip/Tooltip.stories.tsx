@@ -1,29 +1,37 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import Tooltip from './Tooltip';
-import { FaInfoCircle, FaQuestionCircle, FaExclamationTriangle } from 'react-icons/fa';
+import React, { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react-webpack5";
+import Tooltip from "./Tooltip";
+import {
+  FaInfoCircle,
+  FaQuestionCircle,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 
 const meta: Meta<typeof Tooltip> = {
-  title: 'Components/Tooltip',
+  title: "Components/Tooltip",
   component: Tooltip,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     type: {
-      control: { type: 'select' },
-      options: ['type1', 'type2', 'type3'],
-      description: 'Type of tooltip',
+      control: { type: "select" },
+      options: ["type1", "type2", "type3"],
+      description: "Type of tooltip",
     },
-    position: {
-      control: { type: 'select' },
-      options: ['top', 'bottom', 'left', 'right'],
-      description: 'Position of the tooltip',
+    side: {
+      control: { type: "select" },
+      options: ["top", "bottom", "left", "right"],
+      description: "Side of the tooltip",
     },
     showArrow: {
-      control: { type: 'boolean' },
-      description: 'Whether to show an arrow pointing to the trigger',
+      control: { type: "boolean" },
+      description: "Whether to show an arrow pointing to the trigger",
+    },
+    open: {
+      control: { type: "boolean" },
+      description: "Whether the tooltip is open",
     },
   },
 };
@@ -31,113 +39,220 @@ const meta: Meta<typeof Tooltip> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const defaultContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+const defaultContent =
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
 
-const longContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.";
+const longContent =
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.";
+
+// Wrapper component to handle state
+const TooltipWrapper: React.FC<{
+  type?: "type1" | "type2" | "type3";
+  content: string;
+  side?: "top" | "bottom" | "left" | "right";
+  showArrow?: boolean;
+  children: React.ReactNode;
+}> = ({
+  type = "type1",
+  content,
+  side = "bottom",
+  showArrow = false,
+  children,
+}) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Tooltip
+      type={type}
+      content={content}
+      side={side}
+      showArrow={showArrow}
+      open={open}
+      onOpenChange={setOpen}
+    >
+      {children}
+    </Tooltip>
+  );
+};
 
 // Type 1 - Light grey background, no arrow
 export const Type1Tooltip: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <FaInfoCircle style={{ fontSize: "20px", color: "#666" }} />
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type1',
+    type: "type1",
     content: defaultContent,
     showArrow: false,
-    children: <FaInfoCircle style={{ fontSize: '20px', color: '#666' }} />,
   },
 };
 
 // Type 2 - Light yellow background with arrow
 export const Type2Tooltip: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <FaQuestionCircle style={{ fontSize: "20px", color: "#F59E0B" }} />
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type2',
+    type: "type2",
     content: longContent,
     showArrow: true,
-    children: <FaQuestionCircle style={{ fontSize: '20px', color: '#F59E0B' }} />,
   },
 };
 
 // Type 3 - Dark grey background with arrow
 export const Type3Tooltip: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <FaExclamationTriangle style={{ fontSize: "20px", color: "#1a1a1a" }} />
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type3',
+    type: "type3",
     content: longContent,
     showArrow: true,
-    children: <FaExclamationTriangle style={{ fontSize: '20px', color: '#1a1a1a' }} />,
   },
 };
 
 // Position variants
 export const TopPosition: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <span
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#f0f0f0",
+          borderRadius: "4px",
+        }}
+      >
+        Hover me (Top)
+      </span>
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type1',
+    type: "type1",
     content: defaultContent,
-    position: 'top',
+    side: "top",
     showArrow: false,
-    children: <span style={{ padding: '8px 16px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>Hover me (Top)</span>,
   },
 };
 
 export const BottomPosition: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <span
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#FFF9C4",
+          borderRadius: "4px",
+        }}
+      >
+        Hover me (Bottom)
+      </span>
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type2',
+    type: "type2",
     content: defaultContent,
-    position: 'bottom',
+    side: "bottom",
     showArrow: true,
-    children: <span style={{ padding: '8px 16px', backgroundColor: '#FFF9C4', borderRadius: '4px' }}>Hover me (Bottom)</span>,
   },
 };
 
 export const LeftPosition: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <span
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#1a1a1a",
+          color: "white",
+          borderRadius: "4px",
+        }}
+      >
+        Hover me (Left)
+      </span>
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type3',
+    type: "type3",
     content: defaultContent,
-    position: 'left',
+    side: "left",
     showArrow: true,
-    children: <span style={{ padding: '8px 16px', backgroundColor: '#1a1a1a', color: 'white', borderRadius: '4px' }}>Hover me (Left)</span>,
   },
 };
 
 export const RightPosition: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <span
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#E3F2FD",
+          borderRadius: "4px",
+        }}
+      >
+        Hover me (Right)
+      </span>
+    </TooltipWrapper>
+  ),
   args: {
-    type: 'type1',
+    type: "type1",
     content: defaultContent,
-    position: 'right',
+    side: "right",
     showArrow: false,
-    children: <span style={{ padding: '8px 16px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>Hover me (Right)</span>,
   },
 };
 
 // Interactive examples
-export const InteractiveTooltip: Story = {
+export const InteractiveExample: Story = {
   render: () => {
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+      <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
         <Tooltip
           type="type1"
-          content="This is a simple tooltip with light grey background and no arrow."
+          content="This is a simple tooltip"
+          side="top"
           showArrow={false}
+          open={tooltipOpen}
+          onOpenChange={setTooltipOpen}
         >
-          <button style={{ padding: '8px 16px', backgroundColor: '#f0f0f0', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            Type 1 Tooltip
+          <button
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
+            Hover or Click Me
           </button>
         </Tooltip>
 
         <Tooltip
           type="type2"
-          content="This tooltip has a light yellow background and includes an arrow pointing to the trigger element."
+          content="This tooltip has an arrow and different styling"
+          side="bottom"
           showArrow={true}
+          open={false}
+          onOpenChange={() => {}}
         >
-          <button style={{ padding: '8px 16px', backgroundColor: '#FFF9C4', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            Type 2 Tooltip
-          </button>
-        </Tooltip>
-
-        <Tooltip
-          type="type3"
-          content="This tooltip has a dark background with white text and includes an arrow for better visual connection."
-          showArrow={true}
-        >
-          <button style={{ padding: '8px 16px', backgroundColor: '#1a1a1a', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            Type 3 Tooltip
+          <button
+            style={{
+              padding: "8px 16px",
+              backgroundColor: "#28a745",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
+            Another Button
           </button>
         </Tooltip>
       </div>
@@ -145,119 +260,67 @@ export const InteractiveTooltip: Story = {
   },
 };
 
-// Tooltip Showcase
-export const TooltipShowcase: Story = {
-  render: () => {
-    return (
-      <div style={{ 
-        padding: '24px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '12px',
-        maxWidth: '800px'
-      }}>
-        <h2 style={{ 
-          marginBottom: '24px', 
-          fontFamily: 'Source Sans 3', 
-          fontSize: '24px', 
-          fontWeight: '600',
-          color: '#1a1a1a'
-        }}>
-          Tooltip Component Showcase
-        </h2>
-        
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(3, 1fr)', 
-          gap: '32px',
-          alignItems: 'start'
-        }}>
-          {/* Type 1 */}
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ marginBottom: '16px', fontFamily: 'Source Sans 3', fontSize: '16px', fontWeight: '600' }}>
-              Type 1
-            </h3>
-            <Tooltip
-              type="type1"
-              content="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-              showArrow={false}
-            >
-              <div style={{ 
-                padding: '16px', 
-                backgroundColor: '#f0f0f0', 
-                borderRadius: '8px',
-                cursor: 'pointer',
-                border: '1px solid #e0e0e0'
-              }}>
-                Hover for Type 1
-              </div>
-            </Tooltip>
-          </div>
-
-          {/* Type 2 */}
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ marginBottom: '16px', fontFamily: 'Source Sans 3', fontSize: '16px', fontWeight: '600' }}>
-              Type 2
-            </h3>
-            <Tooltip
-              type="type2"
-              content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text."
-              showArrow={true}
-            >
-              <div style={{ 
-                padding: '16px', 
-                backgroundColor: '#FFF9C4', 
-                borderRadius: '8px',
-                cursor: 'pointer',
-                border: '1px solid #FFE082'
-              }}>
-                Hover for Type 2
-              </div>
-            </Tooltip>
-          </div>
-
-          {/* Type 3 */}
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ marginBottom: '16px', fontFamily: 'Source Sans 3', fontSize: '16px', fontWeight: '600' }}>
-              Type 3
-            </h3>
-            <Tooltip
-              type="type3"
-              content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text."
-              showArrow={true}
-            >
-              <div style={{ 
-                padding: '16px', 
-                backgroundColor: '#1a1a1a', 
-                color: 'white',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                border: '1px solid #333'
-              }}>
-                Hover for Type 3
-              </div>
-            </Tooltip>
-          </div>
-        </div>
-
-        <div style={{ 
-          marginTop: '32px', 
-          padding: '16px', 
-          backgroundColor: 'white', 
-          borderRadius: '8px',
-          border: '1px solid #e6e6e6'
-        }}>
-          <h4 style={{ marginBottom: '12px', fontFamily: 'Source Sans 3', fontSize: '14px', fontWeight: '600' }}>
-            Tooltip Features:
-          </h4>
-          <ul style={{ fontSize: '12px', lineHeight: '1.6', margin: 0, paddingLeft: '20px' }}>
-            <li><strong>Type 1:</strong> Light grey background, no arrow - for simple informational tooltips</li>
-            <li><strong>Type 2:</strong> Light yellow background with arrow - for highlighted information</li>
-            <li><strong>Type 3:</strong> Dark background with white text and arrow - for important information</li>
-            <li><strong>Positions:</strong> Top, bottom, left, right positioning with automatic arrow placement</li>
-            <li><strong>Interaction:</strong> Hover to show, click outside to hide, or click to toggle</li>
-          </ul>
-        </div>
-      </div>
-    );
+// Long content example
+export const LongContent: Story = {
+  render: (args) => (
+    <TooltipWrapper {...args}>
+      <span
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#f8f9fa",
+          border: "1px solid #dee2e6",
+          borderRadius: "4px",
+        }}
+      >
+        Hover for long content
+      </span>
+    </TooltipWrapper>
+  ),
+  args: {
+    type: "type2",
+    content:
+      "This is a very long tooltip content that demonstrates how the tooltip handles longer text. It should wrap properly and maintain good readability. The tooltip should adjust its width based on the content while staying within reasonable bounds.",
+    side: "bottom",
+    showArrow: true,
   },
+};
+
+// Different sizes and styles
+export const DifferentSizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+      <Tooltip
+        type="type1"
+        content="Small icon tooltip"
+        side="top"
+        showArrow={false}
+        open={false}
+        onOpenChange={() => {}}
+      >
+        <FaInfoCircle style={{ fontSize: "16px", color: "#666" }} />
+      </Tooltip>
+
+      <Tooltip
+        type="type2"
+        content="Medium icon tooltip"
+        side="top"
+        showArrow={true}
+        open={false}
+        onOpenChange={() => {}}
+      >
+        <FaQuestionCircle style={{ fontSize: "24px", color: "#F59E0B" }} />
+      </Tooltip>
+
+      <Tooltip
+        type="type3"
+        content="Large icon tooltip"
+        side="top"
+        showArrow={true}
+        open={false}
+        onOpenChange={() => {}}
+      >
+        <FaExclamationTriangle style={{ fontSize: "32px", color: "#1a1a1a" }} />
+      </Tooltip>
+    </div>
+  ),
 };

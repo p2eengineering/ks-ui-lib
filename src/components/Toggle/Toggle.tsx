@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { FaSun, FaMoon, FaCheck, FaTimes, FaBars } from 'react-icons/fa';
-import './Toggle.scss';
+import React from "react";
+import { FaSun, FaMoon, FaCheck, FaTimes, FaBars } from "react-icons/fa";
+import "./Toggle.scss";
 
 export interface ToggleProps {
-  type?: 'switch' | 'segmented' | 'theme';
-  variant?: 'primary' | 'secondary';
-  size?: 'small' | 'medium' | 'large';
+  type?: "switch" | "segmented" | "theme";
+  variant?: "primary" | "secondary";
+  size?: "small" | "medium" | "large";
   checked?: boolean;
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
@@ -21,33 +21,36 @@ export interface ToggleProps {
   activeSegment?: string;
   onSegmentChange?: (segmentId: string) => void;
   // Theme selector specific props
-  theme?: 'light' | 'dark';
-  onThemeChange?: (theme: 'light' | 'dark') => void;
+  theme?: "light" | "dark";
+  onThemeChange?: (theme: "light" | "dark") => void;
   showDropdown?: boolean;
+  // Controlled dropdown state
+  dropdownOpen?: boolean;
+  onDropdownOpenChange?: (open: boolean) => void;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
-  type = 'switch',
-  variant = 'primary',
-  size = 'medium',
+  type = "switch",
+  variant = "primary",
+  size = "medium",
   checked = false,
   disabled = false,
   onChange,
-  className = '',
+  className = "",
   children,
   label,
   segments = [
-    { id: 'bars', label: '☰' },
-    { id: 'close', label: '✕' },
+    { id: "bars", label: "☰" },
+    { id: "close", label: "✕" },
   ],
-  activeSegment = 'bars',
+  activeSegment = "bars",
   onSegmentChange,
-  theme = 'light',
+  theme = "light",
   onThemeChange,
   showDropdown = false,
+  dropdownOpen = false,
+  onDropdownOpenChange,
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(showDropdown);
-
   const handleToggle = () => {
     if (!disabled && onChange) {
       onChange(!checked);
@@ -60,35 +63,37 @@ const Toggle: React.FC<ToggleProps> = ({
     }
   };
 
-  const handleThemeChange = (newTheme: 'light' | 'dark') => {
+  const handleThemeChange = (newTheme: "light" | "dark") => {
     if (!disabled && onThemeChange) {
       onThemeChange(newTheme);
-      setIsDropdownOpen(false);
+      onDropdownOpenChange?.(false);
     }
   };
 
   const toggleDropdown = () => {
     if (!disabled) {
-      setIsDropdownOpen(!isDropdownOpen);
+      onDropdownOpenChange?.(!dropdownOpen);
     }
   };
 
   const componentClasses = [
-    'toggle',
+    "toggle",
     `toggle--${type}`,
     `toggle--${variant}`,
     `toggle--${size}`,
-    disabled ? 'toggle--disabled' : '',
-    className
-  ].filter(Boolean).join(' ');
+    disabled ? "toggle--disabled" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // Standard Toggle Switch
-  if (type === 'switch') {
+  if (type === "switch") {
     return (
       <div className={componentClasses}>
         <button
           type="button"
-          className={`toggle-switch ${checked ? 'toggle-switch--checked' : ''}`}
+          className={`toggle-switch ${checked ? "toggle-switch--checked" : ""}`}
           onClick={handleToggle}
           disabled={disabled}
           role="switch"
@@ -98,13 +103,15 @@ const Toggle: React.FC<ToggleProps> = ({
             <div className="toggle-switch__handle" />
           </div>
         </button>
-        {(children || label) && <span className="toggle__label">{children || label}</span>}
+        {(children || label) && (
+          <span className="toggle__label">{children || label}</span>
+        )}
       </div>
     );
   }
 
   // Segmented Control
-  if (type === 'segmented') {
+  if (type === "segmented") {
     return (
       <div className={componentClasses}>
         <div className="toggle-segmented" role="tablist">
@@ -113,25 +120,31 @@ const Toggle: React.FC<ToggleProps> = ({
               key={segment.id}
               type="button"
               className={`toggle-segmented__segment ${
-                activeSegment === segment.id ? 'toggle-segmented__segment--active' : ''
+                activeSegment === segment.id
+                  ? "toggle-segmented__segment--active"
+                  : ""
               }`}
               onClick={() => handleSegmentClick(segment.id)}
               disabled={disabled}
               role="tab"
               aria-selected={activeSegment === segment.id}
             >
-              {segment.icon && <span className="toggle-segmented__icon">{segment.icon}</span>}
+              {segment.icon && (
+                <span className="toggle-segmented__icon">{segment.icon}</span>
+              )}
               <span className="toggle-segmented__label">{segment.label}</span>
             </button>
           ))}
         </div>
-        {(children || label) && <span className="toggle__label">{children || label}</span>}
+        {(children || label) && (
+          <span className="toggle__label">{children || label}</span>
+        )}
       </div>
     );
   }
 
   // Theme Selector
-  if (type === 'theme') {
+  if (type === "theme") {
     return (
       <div className={`${componentClasses} toggle-theme`}>
         <button
@@ -139,47 +152,53 @@ const Toggle: React.FC<ToggleProps> = ({
           className="toggle-theme__button"
           onClick={toggleDropdown}
           disabled={disabled}
-          aria-expanded={isDropdownOpen}
+          aria-expanded={dropdownOpen}
           aria-haspopup="listbox"
         >
           <span className="toggle-theme__icon">
-            {theme === 'light' ? <FaSun /> : <FaMoon />}
+            {theme === "light" ? <FaSun /> : <FaMoon />}
           </span>
         </button>
-        
-        {isDropdownOpen && (
+
+        {dropdownOpen && (
           <div className="toggle-theme__dropdown" role="listbox">
             <button
               type="button"
               className={`toggle-theme__option ${
-                theme === 'light' ? 'toggle-theme__option--active' : ''
+                theme === "light" ? "toggle-theme__option--active" : ""
               }`}
-              onClick={() => handleThemeChange('light')}
+              onClick={() => handleThemeChange("light")}
               role="option"
-              aria-selected={theme === 'light'}
+              aria-selected={theme === "light"}
             >
               <FaSun className="toggle-theme__option-icon" />
               <span className="toggle-theme__option-label">Light</span>
-              {theme === 'light' && <FaCheck className="toggle-theme__option-check" />}
+              {theme === "light" && (
+                <FaCheck className="toggle-theme__option-check" />
+              )}
             </button>
-            
+
             <button
               type="button"
               className={`toggle-theme__option ${
-                theme === 'dark' ? 'toggle-theme__option--active' : ''
+                theme === "dark" ? "toggle-theme__option--active" : ""
               }`}
-              onClick={() => handleThemeChange('dark')}
+              onClick={() => handleThemeChange("dark")}
               role="option"
-              aria-selected={theme === 'dark'}
+              aria-selected={theme === "dark"}
             >
               <FaMoon className="toggle-theme__option-icon" />
               <span className="toggle-theme__option-label">Dark</span>
-              {theme === 'dark' && <FaCheck className="toggle-theme__option-check" />}
+              {theme === "dark" && (
+                <FaCheck className="toggle-theme__option-check" />
+              )}
             </button>
           </div>
         )}
-        
-        {(children || label) && <span className="toggle__label">{children || label}</span>}
+
+        {(children || label) && (
+          <span className="toggle__label">{children || label}</span>
+        )}
       </div>
     );
   }

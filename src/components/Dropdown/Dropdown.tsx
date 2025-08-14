@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FaChevronDown, FaChevronUp, FaSearch } from 'react-icons/fa';
-import './Dropdown.scss';
+import React from "react";
+import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
+import "./Dropdown.scss";
 
 export interface DropdownOption {
   value: string;
@@ -9,7 +9,7 @@ export interface DropdownOption {
 }
 
 export interface DropdownProps {
-  type?: 'type1' | 'type2' | 'type3' | 'combo';
+  type?: "type1" | "type2" | "type3" | "combo";
   options: DropdownOption[];
   value?: string;
   placeholder?: string;
@@ -20,102 +20,94 @@ export interface DropdownProps {
   searchPlaceholder?: string;
   disabled?: boolean;
   className?: string;
+  // Controlled state props
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  searchTerm?: string;
+  onSearchChange?: (term: string) => void;
+  highlightedIndex?: number;
+  onHighlightedIndexChange?: (index: number) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
-  type = 'type1',
+  type = "type1",
   options,
   value,
-  placeholder = '-- Select --',
+  placeholder = "-- Select --",
   label,
   onSelect,
   onChange,
   searchable = false,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = "Search...",
   disabled = false,
-  className = '',
+  className = "",
+  // Controlled state props
+  open = false,
+  onOpenChange,
+  searchTerm = "",
+  onSearchChange,
+  highlightedIndex = -1,
+  onHighlightedIndexChange,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const selectedOption = options.find((option) => option.value === value);
 
-  const selectedOption = options.find(option => option.value === value);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        setSearchTerm('');
-        setHighlightedIndex(-1);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSearchTerm('');
-      setHighlightedIndex(-1);
-    }
-  }, [isOpen]);
-
-  const filteredOptions = searchable
-    ? options.filter(option =>
-        option.label.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : options;
-
-  const handleToggle = () => {
-    if (!disabled) {
-      setIsOpen(!isOpen);
-    }
-  };
+  const filteredOptions =
+    searchable && searchTerm
+      ? options.filter((option) =>
+          option.label.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : options;
 
   const handleSelect = (option: DropdownOption) => {
     if (!option.disabled) {
       onSelect?.(option.value);
       onChange?.(option.value);
-      setIsOpen(false);
-      setSearchTerm('');
-      setHighlightedIndex(-1);
+      onOpenChange?.(false);
+      onSearchChange?.("");
+      onHighlightedIndexChange?.(-1);
     }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!isOpen) {
-      if (event.key === 'Enter' || event.key === ' ') {
+    if (!open) {
+      if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        setIsOpen(true);
+        onOpenChange?.(true);
       }
       return;
     }
 
     switch (event.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         event.preventDefault();
-        setHighlightedIndex(prev => 
-          prev < filteredOptions.length - 1 ? prev + 1 : 0
+        onHighlightedIndexChange?.(
+          highlightedIndex < filteredOptions.length - 1
+            ? highlightedIndex + 1
+            : 0
         );
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         event.preventDefault();
-        setHighlightedIndex(prev => 
-          prev > 0 ? prev - 1 : filteredOptions.length - 1
+        onHighlightedIndexChange?.(
+          highlightedIndex > 0
+            ? highlightedIndex - 1
+            : filteredOptions.length - 1
         );
         break;
-      case 'Enter':
+      case "Enter":
         event.preventDefault();
-        if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+        if (
+          highlightedIndex >= 0 &&
+          highlightedIndex < filteredOptions.length
+        ) {
           handleSelect(filteredOptions[highlightedIndex]);
         }
         break;
-      case 'Escape':
-        setIsOpen(false);
-        setSearchTerm('');
-        setHighlightedIndex(-1);
+      case "Escape":
+        event.preventDefault();
+        onOpenChange?.(false);
+        onSearchChange?.("");
+        onHighlightedIndexChange?.(-1);
         break;
     }
   };
@@ -124,14 +116,14 @@ const Dropdown: React.FC<DropdownProps> = ({
     if (selectedOption) {
       return selectedOption.label;
     }
-    
+
     switch (type) {
-      case 'type1':
-        return label || 'Dropdown';
-      case 'type2':
-        return label || 'All Items';
-      case 'type3':
-      case 'combo':
+      case "type1":
+        return label || "Dropdown";
+      case "type2":
+        return label || "All Items";
+      case "type3":
+      case "combo":
         return placeholder;
       default:
         return placeholder;
@@ -139,41 +131,45 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const getButtonClass = () => {
-    const baseClass = 'dropdown__trigger';
+    const baseClass = "dropdown__trigger";
     const typeClass = `dropdown__trigger--${type}`;
-    const stateClass = isOpen ? 'dropdown__trigger--open' : '';
-    const disabledClass = disabled ? 'dropdown__trigger--disabled' : '';
-    
-    return [baseClass, typeClass, stateClass, disabledClass].filter(Boolean).join(' ');
+    const stateClass = open ? "dropdown__trigger--open" : "";
+    const disabledClass = disabled ? "dropdown__trigger--disabled" : "";
+
+    return [baseClass, typeClass, stateClass, disabledClass]
+      .filter(Boolean)
+      .join(" ");
   };
 
   const componentClasses = [
-    'dropdown',
+    "dropdown",
     `dropdown--${type}`,
-    isOpen ? 'dropdown--open' : '',
-    disabled ? 'dropdown--disabled' : '',
-    className
-  ].filter(Boolean).join(' ');
+    open ? "dropdown--open" : "",
+    disabled ? "dropdown--disabled" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <div className={componentClasses} ref={dropdownRef}>
+    <div className={componentClasses}>
       <button
         type="button"
         className={getButtonClass()}
-        onClick={handleToggle}
+        onClick={() => onOpenChange?.(!open)}
         onKeyDown={handleKeyDown}
         disabled={disabled}
         aria-haspopup="listbox"
-        aria-expanded={isOpen}
+        aria-expanded={open}
         aria-label={getDisplayText()}
       >
         <span className="dropdown__label">{getDisplayText()}</span>
         <span className="dropdown__icon">
-          {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+          {open ? <FaChevronUp /> : <FaChevronDown />}
         </span>
       </button>
 
-      {isOpen && (
+      {open && (
         <div className="dropdown__menu" role="listbox">
           {searchable && (
             <div className="dropdown__search">
@@ -182,26 +178,30 @@ const Dropdown: React.FC<DropdownProps> = ({
                 type="text"
                 placeholder={searchPlaceholder}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => onSearchChange?.(e.target.value)}
                 className="dropdown__search-input"
                 autoFocus
               />
             </div>
           )}
-          
+
           <div className="dropdown__options">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
                 <div
                   key={option.value}
                   className={[
-                    'dropdown__option',
-                    option.value === value ? 'dropdown__option--selected' : '',
-                    index === highlightedIndex ? 'dropdown__option--highlighted' : '',
-                    option.disabled ? 'dropdown__option--disabled' : ''
-                  ].filter(Boolean).join(' ')}
+                    "dropdown__option",
+                    option.value === value ? "dropdown__option--selected" : "",
+                    index === highlightedIndex
+                      ? "dropdown__option--highlighted"
+                      : "",
+                    option.disabled ? "dropdown__option--disabled" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                   onClick={() => handleSelect(option)}
-                  onMouseEnter={() => setHighlightedIndex(index)}
+                  onMouseEnter={() => onHighlightedIndexChange?.(index)}
                   role="option"
                   aria-selected={option.value === value}
                 >
@@ -209,9 +209,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 </div>
               ))
             ) : (
-              <div className="dropdown__no-results">
-                No results found
-              </div>
+              <div className="dropdown__no-results">No results found</div>
             )}
           </div>
         </div>

@@ -34,8 +34,9 @@
     "NPM_README.md"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && npm run postbuild",
     "build:lib": "rollup -c rollup.config.js",
+    "postbuild": "node -e \"const fs=require('fs');const path=require('path');const assetsDir=path.join('dist','assets');if(fs.existsSync(assetsDir)){const files=fs.readdirSync(assetsDir).filter(f=>f.endsWith('.css'));if(files.length>0){const latestFile=files.sort().pop();fs.copyFileSync(path.join(assetsDir,latestFile),'dist/styles.css');fs.rmSync(assetsDir,{recursive:true,force:true});console.log('✅ CSS files cleaned up and styles.css updated')}}\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "react-scripts test",

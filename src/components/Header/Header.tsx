@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import { FaBars, FaBell, FaQuestionCircle, FaTh, FaWallet } from 'react-icons/fa';
-import './Header.scss';
+import React from "react";
+import {
+  FaBars,
+  FaBell,
+  FaQuestionCircle,
+  FaTh,
+  FaWallet,
+} from "react-icons/fa";
+import "./Header.scss";
 
 export interface HeaderProps {
   onMenuToggle?: () => void;
@@ -8,29 +14,30 @@ export interface HeaderProps {
   walletBalance?: string;
   profileImage?: string;
   className?: string;
+  // Controlled apps menu state
+  showAppsMenu?: boolean;
+  onAppsMenuToggle?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onMenuToggle,
-  walletAddress = '0x2E22...CD71',
-  walletBalance = '$2,500.00',
+  walletAddress = "0x2E22...CD71",
+  walletBalance = "$2,500.00",
   profileImage,
-  className = '',
+  className = "",
+  // Controlled apps menu state
+  showAppsMenu = false,
+  onAppsMenuToggle,
 }) => {
-  const [showAppsMenu, setShowAppsMenu] = useState(false);
-
   const handleMenuToggle = () => {
     onMenuToggle?.();
   };
 
   const handleAppsToggle = () => {
-    setShowAppsMenu(!showAppsMenu);
+    onAppsMenuToggle?.();
   };
 
-  const componentClasses = [
-    'header',
-    className
-  ].filter(Boolean).join(' ');
+  const componentClasses = ["header", className].filter(Boolean).join(" ");
 
   return (
     <header className={componentClasses}>
@@ -57,11 +64,7 @@ const Header: React.FC<HeaderProps> = ({
           <FaBell />
         </button>
 
-        <button
-          type="button"
-          className="header__icon-button"
-          aria-label="Help"
-        >
+        <button type="button" className="header__icon-button" aria-label="Help">
           <FaQuestionCircle />
         </button>
 
@@ -87,13 +90,15 @@ const Header: React.FC<HeaderProps> = ({
             <FaTh />
             <span className="header__apps-text">Apps</span>
           </button>
-          
+
           {showAppsMenu && (
             <div className="header__apps-menu">
               <div className="header__apps-menu-item">Dashboard</div>
               <div className="header__apps-menu-item">Smart Contract</div>
               <div className="header__apps-menu-item">API Gateway</div>
-              <div className="header__apps-menu-item">Transaction Monitoring</div>
+              <div className="header__apps-menu-item">
+                Transaction Monitoring
+              </div>
               <div className="header__apps-menu-item">Subscription</div>
               <div className="header__apps-menu-item">API Key Generation</div>
               <div className="header__apps-menu-item">Settings</div>

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import Table from './Table';
 
@@ -28,6 +29,15 @@ const meta: Meta<typeof Table> = {
     className: {
       control: 'text',
       description: 'Additional CSS classes to apply to the table',
+    },
+    sortColumn: {
+      control: 'text',
+      description: 'Currently sorted column ID',
+    },
+    sortDirection: {
+      control: { type: 'select' },
+      options: ['asc', 'desc'],
+      description: 'Sort direction',
     },
   },
 };
@@ -76,7 +86,40 @@ const defaultRows = [
   },
 ];
 
+// Wrapper component to handle controlled state
+const TableWrapper: React.FC<{
+  columns: any[];
+  rows: any[];
+  onSort?: (columnId: string, direction: 'asc' | 'desc') => void;
+  onEdit?: (row: any) => void;
+  onDelete?: (row: any) => void;
+  className?: string;
+}> = ({ columns, rows, onSort, onEdit, onDelete, className }) => {
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  const handleSortChange = (columnId: string, direction: 'asc' | 'desc') => {
+    setSortColumn(columnId);
+    setSortDirection(direction);
+    onSort?.(columnId, direction);
+  };
+
+  return (
+    <Table
+      columns={columns}
+      rows={rows}
+      sortColumn={sortColumn}
+      sortDirection={sortDirection}
+      onSortChange={handleSortChange}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      className={className}
+    />
+  );
+};
+
 export const Default: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: defaultColumns,
     rows: defaultRows,
@@ -84,6 +127,7 @@ export const Default: Story = {
 };
 
 export const WithAvatars: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: defaultColumns,
     rows: [
@@ -124,6 +168,7 @@ export const WithAvatars: Story = {
 };
 
 export const CustomColumns: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: [
       { id: 'name', label: 'Product Name', sortable: false },
@@ -168,6 +213,7 @@ export const CustomColumns: Story = {
 };
 
 export const LargeDataset: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: [
       { id: 'name', label: 'Employee Name', sortable: false },
@@ -232,6 +278,7 @@ export const LargeDataset: Story = {
 };
 
 export const NoSortableColumns: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: [
       { id: 'name', label: 'Name', sortable: false },
@@ -244,6 +291,7 @@ export const NoSortableColumns: Story = {
 };
 
 export const ImageExample: Story = {
+  render: (args) => <TableWrapper {...args} />,
   args: {
     columns: [
       { id: 'name', label: 'Name', sortable: false },

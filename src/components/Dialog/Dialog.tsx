@@ -1,31 +1,8 @@
-import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { FaTimes } from 'react-icons/fa';
+import React from "react";
+import { FaTimes } from "react-icons/fa";
+import "./Dialog.scss";
 
-// =============================================================================
-// DIALOG CONTEXT
-// =============================================================================
-
-interface DialogContextType {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
-const DialogContext = createContext<DialogContextType | undefined>(undefined);
-
-const useDialogContext = () => {
-  const context = useContext(DialogContext);
-  if (!context) {
-    throw new Error('Dialog components must be used within a Dialog');
-  }
-  return context;
-};
-
-// =============================================================================
-// DIALOG ROOT
-// =============================================================================
-
-interface DialogProps {
+export interface DialogProps {
   children: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -34,132 +11,95 @@ interface DialogProps {
 
 const Dialog: React.FC<DialogProps> = ({
   children,
-  open: controlledOpen,
+  open,
   onOpenChange,
   defaultOpen = false,
 }) => {
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
-  
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : internalOpen;
-  
-  const handleOpenChange = (open: boolean) => {
-    if (!isControlled) {
-      setInternalOpen(open);
-    }
-    onOpenChange?.(open);
-  };
-
-  return (
-    <DialogContext.Provider value={{ isOpen, onOpenChange: handleOpenChange }}>
-      {children}
-    </DialogContext.Provider>
-  );
+  return <div className="dialog-root">{children}</div>;
 };
 
-// =============================================================================
-// DIALOG TRIGGER
-// =============================================================================
-
-interface DialogTriggerProps {
+export interface DialogTriggerProps {
   children: React.ReactNode;
   asChild?: boolean;
+  className?: string;
+  onClick?: () => void;
 }
 
-const DialogTrigger: React.FC<DialogTriggerProps> = ({ children, asChild = false }) => {
-  const { onOpenChange } = useDialogContext();
-  
-  const handleClick = () => {
-    onOpenChange(true);
-  };
-
+const DialogTrigger: React.FC<DialogTriggerProps> = ({
+  children,
+  asChild = false,
+  className = "",
+  onClick,
+}) => {
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children, {
-      onClick: handleClick,
+      className: `${children.props.className || ""} ${className}`.trim(),
+      onClick: (e: any) => {
+        children.props.onClick?.(e);
+        onClick?.();
+      },
     } as any);
   }
 
   return (
-    <button type="button" onClick={handleClick} className="dialog-trigger">
+    <button
+      type="button"
+      className={`dialog-trigger ${className}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
 };
 
-// =============================================================================
-// DIALOG CONTENT
-// =============================================================================
-
-interface DialogContentProps {
+export interface DialogContentProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const DialogContent: React.FC<DialogContentProps> = ({
   children,
-  className = '',
+  className = "",
   style,
-  size = 'md',
+  size = "md",
+  open = false,
+  onOpenChange,
 }) => {
-  const { isOpen, onOpenChange } = useDialogContext();
-  const contentRef = useRef<HTMLDivElement>(null);
+  if (!open) return null;
 
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onOpenChange(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onOpenChange]);
-
-  const handleBackdropClick = (event: React.MouseEvent) => {
-    if (event.target === event.currentTarget) {
-      onOpenChange(false);
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onOpenChange?.(false);
     }
   };
 
-  if (!isOpen) return null;
-
-  const content = (
-    <div className="dialog-overlay" onClick={handleBackdropClick}>
+  return (
+    <div className="dialog-overlay" onClick={handleOverlayClick}>
       <div
-        ref={contentRef}
         className={`dialog-content dialog-content--${size} ${className}`}
         style={style}
-        role="dialog"
-        aria-modal="true"
       >
         {children}
       </div>
     </div>
   );
-
-  return createPortal(content, document.body);
 };
 
-// =============================================================================
-// DIALOG HEADER
-// =============================================================================
-
-interface DialogHeaderProps {
+export interface DialogHeaderProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
 
-const DialogHeader: React.FC<DialogHeaderProps> = ({ children, className = '', style }) => {
+const DialogHeader: React.FC<DialogHeaderProps> = ({
+  children,
+  className = "",
+  style,
+}) => {
   return (
     <div className={`dialog-header ${className}`} style={style}>
       {children}
@@ -167,88 +107,64 @@ const DialogHeader: React.FC<DialogHeaderProps> = ({ children, className = '', s
   );
 };
 
-// =============================================================================
-// DIALOG TITLE
-// =============================================================================
-
-interface DialogTitleProps {
+export interface DialogTitleProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogTitle: React.FC<DialogTitleProps> = ({ children, className = '' }) => {
-  return (
-    <h2 className={`dialog-title ${className}`}>
-      {children}
-    </h2>
-  );
+const DialogTitle: React.FC<DialogTitleProps> = ({
+  children,
+  className = "",
+}) => {
+  return <h2 className={`dialog-title ${className}`}>{children}</h2>;
 };
 
-// =============================================================================
-// DIALOG DESCRIPTION
-// =============================================================================
-
-interface DialogDescriptionProps {
+export interface DialogDescriptionProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogDescription: React.FC<DialogDescriptionProps> = ({ children, className = '' }) => {
-  return (
-    <p className={`dialog-description ${className}`}>
-      {children}
-    </p>
-  );
+const DialogDescription: React.FC<DialogDescriptionProps> = ({
+  children,
+  className = "",
+}) => {
+  return <p className={`dialog-description ${className}`}>{children}</p>;
 };
 
-// =============================================================================
-// DIALOG FOOTER
-// =============================================================================
-
-interface DialogFooterProps {
+export interface DialogFooterProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogFooter: React.FC<DialogFooterProps> = ({ children, className = '' }) => {
-  return (
-    <div className={`dialog-footer ${className}`}>
-      {children}
-    </div>
-  );
+const DialogFooter: React.FC<DialogFooterProps> = ({
+  children,
+  className = "",
+}) => {
+  return <div className={`dialog-footer ${className}`}>{children}</div>;
 };
 
-// =============================================================================
-// DIALOG CLOSE
-// =============================================================================
-
-interface DialogCloseProps {
+export interface DialogCloseProps {
   children?: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
-const DialogClose: React.FC<DialogCloseProps> = ({ children, className = '' }) => {
-  const { onOpenChange } = useDialogContext();
-  
-  const handleClick = () => {
-    onOpenChange(false);
-  };
-
+const DialogClose: React.FC<DialogCloseProps> = ({
+  children,
+  className = "",
+  onClick,
+}) => {
   return (
     <button
       type="button"
-      onClick={handleClick}
       className={`dialog-close ${className}`}
       aria-label="Close dialog"
+      onClick={onClick}
     >
       {children || <FaTimes />}
     </button>
   );
 };
-
-// =============================================================================
-// EXPORTS
-// =============================================================================
 
 export {
   Dialog,
@@ -259,15 +175,4 @@ export {
   DialogDescription,
   DialogFooter,
   DialogClose,
-};
-
-export type {
-  DialogProps,
-  DialogTriggerProps,
-  DialogContentProps,
-  DialogHeaderProps,
-  DialogTitleProps,
-  DialogDescriptionProps,
-  DialogFooterProps,
-  DialogCloseProps,
 };

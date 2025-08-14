@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  FaTh, 
-  FaFileContract, 
-  FaCogs, 
-  FaExchangeAlt, 
-  FaGift, 
-  FaKey, 
-  FaCog 
-} from 'react-icons/fa';
-import './Sidebar.scss';
+import React from "react";
+import {
+  FaTh,
+  FaFileContract,
+  FaCogs,
+  FaExchangeAlt,
+  FaGift,
+  FaKey,
+  FaCog,
+} from "react-icons/fa";
+import "./Sidebar.scss";
 
 export interface SidebarItem {
   id: string;
@@ -26,78 +26,78 @@ export interface SidebarProps {
   onItemClick?: (item: SidebarItem) => void;
   onActiveChange?: (activeId: string) => void;
   className?: string;
+  // Controlled active state
+  activeId?: string;
+  onActiveIdChange?: (activeId: string) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   isOpen = true,
-  defaultActiveId = 'dashboard',
+  defaultActiveId = "dashboard",
   onItemClick,
   onActiveChange,
-  className = '',
+  className = "",
+  // Controlled active state
+  activeId,
+  onActiveIdChange,
 }) => {
-  const [activeId, setActiveId] = useState(defaultActiveId);
-
   const defaultItems: SidebarItem[] = [
     {
-      id: 'dashboard',
-      label: 'Dashboard',
+      id: "dashboard",
+      label: "Dashboard",
       icon: <FaTh />,
     },
     {
-      id: 'smart-contract',
-      label: 'Smart Contract',
+      id: "smart-contract",
+      label: "Smart Contract",
       icon: <FaFileContract />,
     },
     {
-      id: 'api-gateway',
-      label: 'API Gateway',
+      id: "api-gateway",
+      label: "API Gateway",
       icon: <FaCogs />,
     },
     {
-      id: 'transaction-monitoring',
-      label: 'Transaction Monitoring',
+      id: "transaction-monitoring",
+      label: "Transaction Monitoring",
       icon: <FaExchangeAlt />,
     },
     {
-      id: 'subscription',
-      label: 'Subscription',
+      id: "subscription",
+      label: "Subscription",
       icon: <FaGift />,
     },
     {
-      id: 'api-key-generation',
-      label: 'API Key Generation',
+      id: "api-key-generation",
+      label: "API Key Generation",
       icon: <FaKey />,
     },
     {
-      id: 'settings',
-      label: 'Settings',
+      id: "settings",
+      label: "Settings",
       icon: <FaCog />,
     },
   ];
 
   const sidebarItems = items || defaultItems;
-
-  // Update active state when defaultActiveId changes
-  useEffect(() => {
-    setActiveId(defaultActiveId);
-  }, [defaultActiveId]);
+  const currentActiveId = activeId || defaultActiveId;
 
   const handleItemClick = (item: SidebarItem) => {
     // Update active state
-    setActiveId(item.id);
-    
+    onActiveIdChange?.(item.id);
+
     // Call the onActiveChange callback
     onActiveChange?.(item.id);
-    
+
     // Call the onItemClick callback
     onItemClick?.(item);
-    
+
     // Handle navigation if href is provided
     if (item.href) {
       window.location.href = item.href;
     }
-    
+
     // Handle custom onClick if provided
     if (item.onClick) {
       item.onClick();
@@ -105,33 +105,36 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const componentClasses = [
-    'sidebar',
-    isOpen ? 'sidebar--open' : 'sidebar--closed',
-    className
-  ].filter(Boolean).join(' ');
+    "sidebar",
+    isOpen ? "sidebar--open" : "sidebar--closed",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <nav className={componentClasses}>
       <div className="sidebar__content">
         <ul className="sidebar__menu">
           {sidebarItems.map((item) => {
-            const isActive = item.isActive !== undefined ? item.isActive : item.id === activeId;
-            
+            const isActive =
+              item.isActive !== undefined
+                ? item.isActive
+                : item.id === currentActiveId;
+
             return (
               <li key={item.id} className="sidebar__menu-item">
                 <button
                   type="button"
-                  className={`sidebar__menu-button ${isActive ? 'sidebar__menu-button--active' : ''}`}
+                  className={`sidebar__menu-button ${
+                    isActive ? "sidebar__menu-button--active" : ""
+                  }`}
                   onClick={() => handleItemClick(item)}
                   aria-label={item.label}
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={isActive ? "page" : undefined}
                 >
-                  <span className="sidebar__menu-icon">
-                    {item.icon}
-                  </span>
-                  <span className="sidebar__menu-label">
-                    {item.label}
-                  </span>
+                  <span className="sidebar__menu-icon">{item.icon}</span>
+                  <span className="sidebar__menu-label">{item.label}</span>
                 </button>
               </li>
             );
