@@ -6,13 +6,15 @@ A professional React component library built with TypeScript and Source Sans 3 t
 
 ## 🎨 Features
 
-- **Comprehensive Component Set**: Starting with Button component, expanding to include more UI elements
+- **Comprehensive Component Set**: 15+ production-ready UI components
+- **Global Toast System**: Hook-free global notification system with 7 positioning options
 - **Consistent Design System**: All components follow the KS design system
 - **Source Sans 3 Typography**: Modern, readable font throughout
 - **KS Design System Colors**: Professional color palette with semantic color tokens
 - **TypeScript Support**: Full type safety for all components
 - **Storybook Documentation**: Interactive component showcase and documentation
 - **Modular Architecture**: Easy to import individual components or the entire library
+- **Hook-free Components**: Many components work without React hooks for better performance
 
 ## 📦 Installation
 
@@ -20,87 +22,207 @@ A professional React component library built with TypeScript and Source Sans 3 t
 npm install @ks/component-library
 ```
 
-## 🚀 Usage
+## 🚀 Quick Start
 
 ```tsx
-import { Button } from '@ks/component-library';
-import '@ks/component-library/dist/styles.css';
+import { Button, ToastProvider, toast } from "@ks/component-library";
+import "@ks/component-library/dist/styles.css";
 
 function App() {
   return (
-    <div>
-      <Button variant="primary" size="medium">
-        Click Me
-      </Button>
-      
-      <Button variant="secondary" size="large" icon="download">
-        Download
-      </Button>
-      
-      <Button variant="text" disabled>
-        Disabled Button
-      </Button>
-    </div>
+    <ToastProvider position="top-right" maxToasts={5}>
+      <div>
+        <Button
+          variant="primary"
+          size="medium"
+          onClick={() =>
+            toast.success({ title: "Success!", message: "Button clicked!" })
+          }
+        >
+          Click Me
+        </Button>
+      </div>
+    </ToastProvider>
   );
 }
 ```
 
 ## 🧩 Available Components
 
-### Button Component
+### Core Components
 
-The Button component is the foundation of our interactive elements, featuring multiple sizes, variants, and states.
+#### Button Component
 
-#### Button Props
+The foundation of interactive elements with multiple sizes, variants, and states.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'text'` | `'primary'` | Visual style variant |
-| `size` | `'small' \| 'medium' \| 'large' \| 'xl' \| '2xl' \| '3xl'` | `'medium'` | Button size |
-| `state` | `'normal' \| 'hover' \| 'disabled'` | `'normal'` | Button state |
-| `icon` | `'none' \| 'download' \| 'arrow'` | `'none'` | Icon to display |
-| `disabled` | `boolean` | `false` | Whether button is disabled |
-| `onClick` | `() => void` | - | Click handler |
-| `children` | `React.ReactNode` | - | Button content |
+**Features:**
 
-#### Button Sizes
+- 6 size variants (small to 3xl)
+- 3 visual variants (primary, secondary, text)
+- Icon support (download, arrow)
+- Full state management (normal, hover, disabled)
 
-| Size | Width | Height | Font Size |
-|------|-------|--------|-----------|
-| small | 105px | 32px | 14px |
-| medium | 105px | 36px | 14px |
-| large | 105px | 46px | 16px |
-| xl | 105px | 48px | 16px |
-| 2xl | 190px | 60px | 18px |
-| 3xl | 227px | 64px | 18px |
+#### Toast Component
+
+Global notification system with hook-free architecture.
+
+**Features:**
+
+- 7 positioning options (top-left, top-center, top-right, bottom-left, bottom-center, bottom-right, center)
+- 3 types (success, error, processing)
+- Auto-dismiss with configurable duration
+- Global API: `toast.success()`, `toast.error()`, `toast.processing()`
+- Manual control: `toast.dismiss()`, `toast.clear()`
+
+#### Dialog Component
+
+Modal dialog system with controlled state management.
+
+**Features:**
+
+- Multiple dialog types (basic, with icons, with lists)
+- Controlled state management
+- Accessible with proper ARIA attributes
+- Flexible content structure
+
+### Form Components
+
+#### Checkbox Component
+
+Custom checkbox with multiple states and variants.
+
+#### RadioButton Component
+
+Radio button group with controlled state management.
+
+#### Toggle Component
+
+Toggle switch with multiple variants and states.
+
+### Layout Components
+
+#### Grid Component
+
+Flexible grid system with responsive breakpoints.
+
+#### Layout Component
+
+Page layout wrapper with header, sidebar, and content areas.
+
+#### Sidebar Component
+
+Collapsible sidebar navigation.
+
+### Navigation Components
+
+#### Header Component
+
+Application header with navigation and actions.
+
+#### Tabs Component
+
+Tab navigation with multiple variants and icon support.
+
+#### Dropdown Component
+
+Dropdown menu with various trigger types.
+
+### Data Display Components
+
+#### Table Component
+
+Data table with sorting, pagination, and responsive design.
+
+#### Chip Component
+
+Compact data display with multiple variants.
+
+### Feedback Components
+
+#### Tooltip Component
+
+Contextual information display with multiple positions.
 
 ## 🎨 Design System
 
 Our design system provides a consistent foundation for all components, ensuring visual harmony and accessibility across your application.
 
 ### Colors
+
 - **Primary**: KS Black (#000000)
 - **Secondary**: KS White (#FFFFFF)
 - **Accent Blue**: #4A3FCF
 - **Accent Green**: #CBFD13
 - **Accent Grey**: #F9F9F9
+- **Success**: #10B981
+- **Error**: #EF4444
+- **Warning**: #F59E0B
 
 ### Typography
+
 - **Font Family**: Source Sans 3
-- **Font Weight**: Bold (700)
+- **Font Weights**: Normal (400), Medium (500), Semibold (600), Bold (700)
 - **Line Height**: 120%
-- **Border Radius**: 10px
+- **Border Radius**: 8px, 10px, 12px
+
+### Spacing
+
+- **Base Unit**: 4px
+- **Common Spacings**: 8px, 12px, 16px, 24px, 32px, 48px
+
+## 🌟 Advanced Features
+
+### Global Toast System
+
+The Toast component provides a powerful global notification system:
+
+```tsx
+// Setup
+<ToastProvider position="bottom-right" maxToasts={5}>
+  <YourApp />
+</ToastProvider>;
+
+// Usage anywhere in your app
+import { toast } from "@ks/component-library";
+
+// Show notifications
+toast.success({ title: "Success!", message: "Operation completed" });
+toast.error({ title: "Error!", message: "Something went wrong" });
+toast.processing({ title: "Processing...", message: "Please wait" });
+
+// Control toasts
+toast.clear(); // Clear all
+toast.dismiss(id); // Dismiss specific toast
+```
+
+### Hook-free Architecture
+
+Many components are designed to work without React hooks for better performance and simpler integration:
+
+- **Toast**: Global singleton pattern
+- **Dialog**: Controlled state management
+- **Tooltip**: Pure component with props
+
+### Responsive Design
+
+All components are built with responsive design principles:
+
+- Mobile-first approach
+- Flexible layouts
+- Adaptive sizing
+- Touch-friendly interactions
 
 ## 🚀 Roadmap
 
-We're actively developing additional components to expand the library:
+We're actively developing additional features and components:
 
-- [ ] **Input Components**: Text inputs, textareas, select dropdowns
-- [ ] **Layout Components**: Cards, containers, grids
-- [ ] **Navigation Components**: Navigation bars, breadcrumbs, pagination
-- [ ] **Feedback Components**: Alerts, notifications, modals
-- [ ] **Data Display**: Tables, lists, badges
-- [ ] **Form Components**: Form groups, validation, file uploads
+- [ ] **Advanced Form Components**: Multi-step forms, file uploads
+- [ ] **Data Visualization**: Charts, graphs, progress indicators
+- [ ] **Advanced Navigation**: Mega menus, breadcrumbs, pagination
+- [ ] **Animation System**: Smooth transitions and micro-interactions
+- [ ] **Theme System**: Dark mode, custom themes
+- [ ] **Accessibility Enhancements**: Screen reader optimizations
+- [ ] **Performance Optimizations**: Lazy loading, code splitting
 
 ## 📚 Storybook
 
@@ -115,17 +237,20 @@ Visit `http://localhost:6006` to see the interactive component documentation and
 ## 🛠️ Development
 
 ### Prerequisites
+
 - Node.js 16+
 - npm or yarn
 
 ### Setup
+
 ```bash
 git clone <repository-url>
-cd button-component-library
+cd component-library
 npm install
 ```
 
 ### Available Scripts
+
 - `npm run storybook` - Start Storybook development server
 - `npm run build-storybook` - Build Storybook for production
 - `npm run build` - Build the component library
@@ -133,26 +258,38 @@ npm install
 - `npm run build:lib` - Build library with rollup configuration
 
 ### Building the Library
+
 ```bash
 npm run build
 ```
 
 This creates:
+
 - `dist/index.js` - CommonJS bundle
 - `dist/index.esm.js` - ES Module bundle
 - `dist/index.d.ts` - TypeScript declarations
 - `dist/styles.css` - Compiled CSS
 
 ### Component Structure
+
 ```
 src/
 ├── components/
 │   ├── Button/
-│   │   ├── Button.tsx
-│   │   ├── Button.scss
-│   │   ├── Button.stories.tsx
-│   │   └── README.md
-│   └── [Future Components]/
+│   ├── Toast/
+│   ├── Dialog/
+│   ├── Checkbox/
+│   ├── RadioButton/
+│   ├── Toggle/
+│   ├── Grid/
+│   ├── Layout/
+│   ├── Sidebar/
+│   ├── Header/
+│   ├── Tabs/
+│   ├── Dropdown/
+│   ├── Table/
+│   ├── Chip/
+│   └── Tooltip/
 ├── design-tokens/
 │   └── design-tokens.scss
 └── index.tsx
@@ -173,3 +310,10 @@ MIT License - see LICENSE file for details.
 ## 📞 Support
 
 For questions or issues, please open an issue on GitHub.
+
+## 📖 Additional Documentation
+
+- **[LLM_GUIDE.md](./LLM_GUIDE.md)** - Comprehensive guide for AI-assisted development
+- **[AI_DEVELOPMENT_GUIDE.md](./AI_DEVELOPMENT_GUIDE.md)** - AI development best practices
+- **[HOOKS_STRATEGY_GUIDE.md](./HOOKS_STRATEGY_GUIDE.md)** - Hook usage strategies
+- **[NPM_README.md](./NPM_README.md)** - NPM package documentation
